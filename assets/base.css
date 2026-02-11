@@ -159,19 +159,10 @@ color: #0b1a2b
   margin-top: 60px;
   padding-top: 20px;
   position: relative;
-  background-image: #F5F5F5;
+  background-color: #F5F5F5;
 }
 
-/* .endline::before{
-  content:"";
-  display: block;
-  top:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:375px;
-  height: 1px;
-  background-color:#e5e5e5;
-} */
+
 
 
 
