@@ -87,6 +87,15 @@
   padding: 80px 40px;
 
 }
+.gift-guide_whiteSpace{
+  position: relative;
+  z-index:1;
+  background-color: #fff;
+  display: inline-block;
+  padding:40px 50px;
+  text-align: center;
+  
+}
 
 .gift-guide_content{
   max-width:420px;
