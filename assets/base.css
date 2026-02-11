@@ -92,12 +92,6 @@
 }
 
 
-
-.gift-guide_art{
-  position:relative;
-  min-height:400px;
-}
-
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
