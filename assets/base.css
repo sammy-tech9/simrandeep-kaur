@@ -159,6 +159,7 @@ color: #0b1a2b
   margin-top: 60px;
   padding-top: 20px;
   position: relative;
+  background-image: #F5F5F5;
 }
 
 .endline::before{
