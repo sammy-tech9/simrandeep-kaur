@@ -71,9 +71,10 @@
 }
 
 .gift-guide_endline{
+  text-align: center;
   font-size: 12px;
   letter-spacing: 1px;
-  margin-bottom: 12px;
+  margin-top: 40px;
   color: #555;
 }
 
