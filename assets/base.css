@@ -8,6 +8,13 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+.gift-guide_announcement{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+}
+
 .gift-guide{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -90,6 +97,7 @@
   height: 1px;
   background-color:#e5e5e5;
 }
+
 
 
 .product-card-wrapper .card,
