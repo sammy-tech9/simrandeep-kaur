@@ -56,7 +56,7 @@
   color: #fff;
 }
 
-.announcement_btn:hover .announcement_arrow svg{
+.announcement_arrow svg{
   filter: brightness(1) invert(0);
 }
 
