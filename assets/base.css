@@ -134,7 +134,7 @@
   transform:translateX(100%);
 }
 
-.gift-guide_arrow{
+.gift-guide_btn:hover .gift-guide_arrow img{
   width: 16px;
   height: 16px;
   filter: brightness(0) invert(1);
