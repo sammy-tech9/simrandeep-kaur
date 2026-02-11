@@ -49,7 +49,7 @@
 .gift-guide_arrow{
   width: 16px;
   height: 16px;
-  fill: #ffffff;
+  filter: brightness(0) invert(1);
 }
 
 .gift-guide_art{
