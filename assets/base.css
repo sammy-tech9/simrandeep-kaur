@@ -93,7 +93,8 @@
   position: relative;
   z-index: 1;
   padding: 80px 50px 50px 50px;
-  text-align: center;
+  margin-right: 120px;
+  align-content: left;
 }
 
 .gift-guide_title{
