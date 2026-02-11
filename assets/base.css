@@ -78,12 +78,11 @@
   margin-top: 60px;
   padding-top: 20px;
   position: relative;
-  color:red !important;
 }
 
 .gift-guide_endline::before{
   content:"";
-  position:absolute;
+  display: block;
   top:0;
   left:50%;
   transform:translateX(-50%);
