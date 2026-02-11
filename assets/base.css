@@ -83,6 +83,14 @@
   align-items:center;
 }
 
+.gift-guide_divider{
+  width:100%;
+  max-width: 1200px;
+  height:1px;
+  background-color: #e5e5e5;
+  margin:60px auto 20px;
+}
+
 .gift-guide_art{
   position:relative;
   min-height:400px;
