@@ -14,7 +14,7 @@
   align-items: center;
   padding: 10px 50px;
   background: #F5F5F5;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -25,7 +25,11 @@
   flex: 1;
 }
 
-.announcement-center{
+.announcement_left{
+  font-size:16px
+}
+
+.announcement_center{
   text-align: center;
 }
 
@@ -46,6 +50,10 @@
   overflow: hidden;
   z-index:1;
   transition: 0.3s ease;
+}
+
+.announcement_btn:hover{
+  color: #fff;
 }
 
 .announcement_btn::before{
