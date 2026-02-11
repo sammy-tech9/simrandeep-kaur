@@ -48,7 +48,7 @@
   transition: 0.3s ease;
 }
 
-.announcement_btn:::before{
+.announcement_btn::before{
   content:"";
   position:absolute;
   inset: 0;
@@ -58,7 +58,7 @@
   z-index: -1;
 }
 
-.announcement_btn:hover:::before{
+.announcement_btn:hover::before{
   transform: translateX(0);
 }
 
