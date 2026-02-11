@@ -49,12 +49,11 @@
   font-weight:500;
   overflow: hidden;
   z-index:1;
-  transition: filter 0.3s ease;
+  transition: 0.3s ease;
 }
 
 .announcement_btn:hover{
   color: #fff;
-  filter: invert(1);
 }
 
 .announcement_arrow:hover{
