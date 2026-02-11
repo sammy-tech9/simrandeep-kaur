@@ -1,0 +1,29 @@
+{{ 'banner-custom.css' | asset_url | stylesheet_tag }}
+
+<section class="banner-custon">
+    
+    <div class="top-header">
+        <span class="website-name">Tisso Vison</span>
+        <span class="text">Find the ideal find for your loved ones.</span>
+        <a href="#" class="top-button">Choose Gift</a>
+    </div>
+
+    <div class="banner-container">
+        <h1>The Gift Guide</h1>
+        <p>Discover joy your ultimate holiday gift destination. Explore our curlated selection and find the perfect gift to delight your loved ones this holiday</p>
+        <a href="#" class="cta-button">Shop Now</a>
+    </div>  
+
+</section>
+
+{% schema %}
+{
+    "name": "Test Banner",
+    "settings": [],
+    "presets": [
+        {
+            "name": "Test Banner"
+        }
+    ]
+}
+{% endschema %}
