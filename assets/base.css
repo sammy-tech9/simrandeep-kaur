@@ -60,6 +60,10 @@
   filter: brightness(0) invert(1);
 }
 
+.announcement_arrow{
+  margin-top: 10px;
+}
+
 .announcement_btn::before{
   content:"";
   position:absolute;
