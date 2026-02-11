@@ -57,7 +57,7 @@
 }
 
 .announcement_arrow{
-  filter: brightness(1) invert(0);
+  filter: brightness(0) invert(1);
 }
 
 .announcement_btn::before{
