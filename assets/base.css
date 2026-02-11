@@ -56,8 +56,8 @@
   color: #fff;
 }
 
-.gift-guide_announcement-arrow:hover::before{
-   filter: brightness(0) invert(1);
+.announcement_btn:hover .announcement_arrow svg{
+  fill: #fff;
 }
 
 .announcement_btn::before{
