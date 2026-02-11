@@ -162,7 +162,7 @@ color: #0b1a2b
   background-image: #F5F5F5;
 }
 
-.endline::before{
+/* .endline::before{
   content:"";
   display: block;
   top:0;
@@ -171,7 +171,7 @@ color: #0b1a2b
   width:375px;
   height: 1px;
   background-color:#e5e5e5;
-}
+} */
 
 
 
