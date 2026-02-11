@@ -151,7 +151,7 @@
 color: #0b1a2b
 }
 
-.gift-guide_endline{
+.endline{
   text-align: center;
   font-size: 12px;
   letter-spacing: 1px;
@@ -161,7 +161,7 @@ color: #0b1a2b
   position: relative;
 }
 
-.gift-guide_endline::before{
+.endline::before{
   content:"";
   display: block;
   top:0;
