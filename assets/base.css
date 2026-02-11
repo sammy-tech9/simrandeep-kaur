@@ -46,6 +46,11 @@
   opacity: 0.8;
 }
 
+.gift-guide_arrow{
+  width: 16px;
+  height: 16px;
+}
+
 .gift-guide_art{
   position:relative;
   min-height:400px;
