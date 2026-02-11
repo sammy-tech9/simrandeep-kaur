@@ -129,12 +129,12 @@
 
 .gift-guide_btn:not(:hover)::before{
   transform:translateX(100%);
+  filter: brightness(0) invert(1);
 }
 
 .gift-guide_arrow{
   width: 16px;
   height: 16px;
-  /* filter: brightness(0) invert(1); */
 }
 
 .gift-guide_endline{
