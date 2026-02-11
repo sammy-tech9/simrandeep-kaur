@@ -29,6 +29,10 @@
   text-align: center;
 }
 
+.announcement_right{
+  text-align: right;
+}
+
 .gift-guide{
   display: grid;
   grid-template-columns: 1fr 1fr;
