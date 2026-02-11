@@ -49,14 +49,14 @@
   font-weight:500;
   overflow: hidden;
   z-index:1;
-  transition: 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .announcement_btn:hover{
   color: #fff;
 }
  
-.announcement_arrow:hover .announcement_arrow img {
+.announcement_btn:hover .announcement_arrow img {
   filter: brightness(0) invert(1);
 }
 
