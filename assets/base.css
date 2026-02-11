@@ -14,7 +14,7 @@
   align-items: center;
   padding: 10px 50px;
   background: #F5F5F5;
-  
+
 
 }
 
@@ -23,7 +23,7 @@
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 80px 40px;
-  background: #f7f7f7;
+  /* background: #f7f7f7; */
 }
 
 .gift-guide_content{
