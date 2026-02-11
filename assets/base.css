@@ -126,6 +126,10 @@
   z-index: -1;
 }
 
+.gift-guide_arrow{
+  margin-top:9px;
+}
+
 .gift-guide_btn:hover::before{
   transform: translateX(0);
 }
