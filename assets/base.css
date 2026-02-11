@@ -70,6 +70,13 @@
   filter: brightness(0) invert(1);
 }
 
+.gift-guide_endline{
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  color: #555;
+}
+
 .gift-guide_art{
   position:relative;
   min-height:400px;
