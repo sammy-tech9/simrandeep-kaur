@@ -125,11 +125,11 @@
 
 .gift-guide_btn:hover::before{
   transform: translateX(0);
+  filter: brightness(0) invert(1);
 }
 
 .gift-guide_btn:not(:hover)::before{
   transform:translateX(100%);
-  filter: brightness(0) invert(1);
 }
 
 .gift-guide_arrow{
