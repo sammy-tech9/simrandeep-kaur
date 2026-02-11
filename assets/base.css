@@ -56,7 +56,7 @@
   color: #fff;
 }
 
-.gift-guide_announcement-arrow{
+.gift-guide_announcement-arrow:hover{
    filter: brightness(0) invert(1);
 }
 
