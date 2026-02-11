@@ -52,11 +52,11 @@
   transition: 0.3s ease;
 }
 
-.announcement_btn:hover,
-.gift-guide_announcement-arrow
-{
-
+.announcement_btn:hover{
   color: #fff;
+}
+
+.gift-guide_announcement-arrow{
    filter: brightness(0) invert(1);
 }
 
