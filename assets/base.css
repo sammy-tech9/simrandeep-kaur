@@ -153,11 +153,10 @@ color: #0b1a2b
 
 .endline{
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
   color: #0b1a2b;
-  margin-top: 60px;
-  padding: 10px 30px;
+  padding: 10px 50px;
   position: relative;
   background-color: #F5F5F5;
 }
