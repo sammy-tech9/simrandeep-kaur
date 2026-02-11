@@ -56,7 +56,7 @@
   color: #fff;
 }
  
-.announcement_arrow:hover{
+.announcement_arrow:hover .announcement_arrow img{
   filter: brightness(0) invert(1);
 }
 
