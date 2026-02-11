@@ -52,15 +52,13 @@
   transition: 0.3s ease;
 }
 
-.announcement_btn:hover,
-.announcement_arrow{
+.announcement_btn:hover{
   color: #fff;
-  filter: brightness(0) invert(1);
 }
 
-/* .announcement_arrow{
+.announcement_arrow:hover{
   filter: brightness(0) invert(1);
-} */
+}
 
 .announcement_btn::before{
   content:"";
