@@ -8,6 +8,49 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+.gift-guide{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 80px 40px;
+  background: #f7f7f7;
+}
+
+.gift-guide_content{
+  max-width:420px;
+}
+
+.gift-guide_title{
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.gift-guide_text{
+  font-size:16px;
+  line-height:1.6;
+  margin-bottom: 24px;
+}
+
+.gift-guide_btn{
+  display: inline-block;
+  padding:14px 24px;
+  background: #0b1a2b;
+  color: #fff;
+  text-decoration: none;
+  font-weight:500;
+  transition: 0.3s ease;
+}
+
+.gift-guide_btn:hover{
+  opacity: 0.8;
+}
+
+.gift-guide_art{
+  position:relative;
+  min-height:400px;
+}
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
