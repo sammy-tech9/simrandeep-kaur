@@ -80,7 +80,7 @@
   position: relative;
 }
 
-.gift-guide_endline:::before{
+.gift-guide_endline::before{
   content:"";
   position:absolute;
   top:0;
