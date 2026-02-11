@@ -55,7 +55,7 @@
 .announcement_btn:hover{
   color: #fff;
 }
-
+ 
 .announcement_arrow:hover{
   filter: brightness(0) invert(1);
 }
