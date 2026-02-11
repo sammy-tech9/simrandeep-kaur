@@ -71,22 +71,17 @@
 }
 
 .gift-guide_endline{
-  width: 100%
+  /* width: 100%; */
+  position:relative;
   text-align: center;
   font-size: 12px;
   letter-spacing: 1px;
   margin-top: 120px;
-  margin-left:120px;
+  padding-top:20px;
   color: #555;
 }
 
-.gift-guide_divider{
-  width:100%;
-  max-width: 1200px;
-  height:1px;
-  background-color: #e5e5e5;
-  margin:60px auto 20px;
-}
+
 
 .gift-guide_art{
   position:relative;
