@@ -58,6 +58,7 @@
 
 .announcement_btn:hover .announcement_arrow svg{
   fill: #fff;
+  filter: brightness(0) invert(1);
 }
 
 .announcement_btn::before{
