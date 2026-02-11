@@ -17,7 +17,16 @@
   font-size: 14px;
   font-weight: 500;
   border-bottom: 1px solid #e5e5e5;
+}
 
+.announcement_left,
+.announcement_center,
+.announcement_right{
+  flex: 1;
+}
+
+.announcement-center{
+  text-align: center;
 }
 
 .gift-guide{
