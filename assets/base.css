@@ -102,11 +102,11 @@
   position: relative;
   z-index: 1;
   align-content: left;
-  color: #0008ba !important;
-
+  
 }
 
 .gift-guide_title{
+  color: #0008ba !important;
   font-size: 48px;
   font-weight: 600;
   margin-bottom: 20px;
