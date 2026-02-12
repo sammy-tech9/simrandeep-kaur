@@ -1,3 +1,214 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  const popup = document.getElementById("product-popup");
+
+  let selectedVariantId = null;
+  let selectedOptions = {};
+
+  document.querySelectorAll(".product-grid_info-btn")
+    .forEach(btn => {
+
+      btn.addEventListener("click", async () => {
+
+        const handle = btn.dataset.handle;
+
+        const res = await fetch(`/products/${handle}.js`);
+        const product = await res.json();
+
+        openPopup(product);
+
+      });
+
+    });
+
+
+  document.querySelector(".popup-close").onclick = closePopup;
+  document.querySelector(".popup-overlay").onclick = closePopup;
+
+
+  function closePopup() {
+    popup.classList.add("hidden");
+  }
+
+
+  function openPopup(product) {
+
+    popup.classList.remove("hidden");
+
+    document.getElementById("popup-img").src =
+      product.images[0];
+
+    document.getElementById("popup-title").innerText =
+      product.title;
+
+    document.getElementById("popup-price").innerText =
+      "₹" + (product.price / 100).toFixed(2);
+
+    document.getElementById("popup-desc").innerText =
+      product.description.replace(/<[^>]*>/g, "");
+
+    renderVariants(product);
+
+  }
+
+
+  function renderVariants(product) {
+
+    const box = document.getElementById("popup-variants");
+
+    box.innerHTML = "";
+
+    selectedOptions = {};
+
+    product.options.forEach((option) => {
+
+      const group = document.createElement("div");
+      group.className = "variant-group";
+
+      const label = document.createElement("label");
+      label.innerText = option.name;
+
+      group.appendChild(label);
+
+
+      if (option.name.toLowerCase() === "color") {
+
+        const colors = document.createElement("div");
+        colors.className = "color-options";
+
+        option.values.forEach(value => {
+
+          const btn = document.createElement("button");
+          btn.innerText = value;
+
+          btn.onclick = () => {
+
+            colors.querySelectorAll("button")
+              .forEach(b => b.classList.remove("active"));
+
+            btn.classList.add("active");
+
+            selectedOptions[option.name] = value;
+
+            updateVariant(product);
+
+          };
+
+          colors.appendChild(btn);
+
+        });
+
+        group.appendChild(colors);
+
+      }
+
+      else {
+
+        const select = document.createElement("select");
+        select.className = "variant-select";
+
+        option.values.forEach(value => {
+
+          const opt = document.createElement("option");
+          opt.value = value;
+          opt.innerText = value;
+
+          select.appendChild(opt);
+
+        });
+
+        select.onchange = () => {
+
+          selectedOptions[option.name] = select.value;
+
+          updateVariant(product);
+
+        };
+
+        group.appendChild(select);
+
+      }
+
+      box.appendChild(group);
+
+    });
+
+
+    selectedVariantId = product.variants[0].id;
+
+  }
+
+
+  function updateVariant(product) {
+
+    const found = product.variants.find(v => {
+
+      return Object.entries(selectedOptions)
+        .every(([k, v2]) =>
+          v.options.includes(v2)
+        );
+
+    });
+
+    if (found) {
+      selectedVariantId = found.id;
+    }
+
+  }
+
+
+  document.getElementById("popup-add-btn")
+    .addEventListener("click", async () => {
+
+      if (!selectedVariantId) return alert("Select options");
+
+      await fetch("/cart/add.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedVariantId,
+          quantity: 1
+        })
+      });
+
+
+      const isBlackMedium =
+        selectedOptions["Color"] === "Black" &&
+        selectedOptions["Size"] === "Medium";
+
+      if (isBlackMedium) {
+
+        await fetch("/cart/add.js", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: getSoftJacketVariant(),
+            quantity: 1
+          })
+        });
+
+      }
+
+      closePopup();
+
+      window.location.href = "/cart";
+
+    });
+
+
+  function getSoftJacketVariant() {
+
+    return 12345678901234; // CHANGE THIS
+
+  }
+
+});
+
+
+
+
+
+
 function getFocusableElements(container) {
   return Array.from(
     container.querySelectorAll(
