@@ -53,7 +53,7 @@
     <div class="product-grid_container">
 
         {% assign products_list = section.settings.product_1 | append: ',' | append: section.settings.product_2 | append: ',' | append: section.settings.product_3 | append: ',' |
-        append: section.settings.product_4 | append: ',' | append: section.settings.product_5 | append: ',' | append: settings.product_6 %}
+        append: section.settings.product_4 | append: ',' | append: section.settings.product_5 | append: ',' | append: section.settings.product_6 %}
         {% assign products_list = products_list | split: ',' %}
 
         {% for product_handle in products_list %}
