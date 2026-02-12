@@ -201,22 +201,22 @@ color: #0b1a2b
   position: relative;
 }
 
-.product-grid_item img{
+/* .product-grid_item img{
   width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
-}
+} */
 
 .product-grid_info-btn{
   position:absolute;
   width: 8.461538314819336;
-height: 8.461538314819336;
-angle: 0 deg;
-opacity: 1;
-top: 245.04px;
-left: 263.62px;
-border-width: 1.5px;
+  height: 8.461538314819336;
+  angle: 0 deg;
+  opacity: 1;
+  top: 245.04px;
+  left: 263.62px;
+  border-width: 1.5px;
 
 }
 
