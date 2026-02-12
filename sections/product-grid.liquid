@@ -85,219 +85,37 @@
     </div>
     </section>
 
-<div id="product-modal" class="product-modal hidden">
-  <div class="product-modal_overlay"></div>
+<!-- Product Popup -->
+<div id="product-popup" class="product-popup hidden">
 
-  <div class="product-modal_content">
-    <button class="product-modal_close">&times;</button>
+  <div class="popup-overlay"></div>
 
-    <div class="product-modal_body">
+  <div class="popup-box">
 
-      <img id="modal-image" src="" alt="" height="auto" width="auto">
+    <button class="popup-close">&times;</button>
 
-      <div class="product-modal_info">
+    <div class="popup-content">
 
-        <h3 id="modal-title"></h3>
-        <p id="modal-price"></p>
+      <div class="popup-image">
+        <img id="popup-img" src="" alt="" height="" width="">
+      </div>
 
-        <p id="modal-description"></p>
+      <div class="popup-info">
 
-        <!-- Variants -->
-        <div id="modal-variants"></div>
+        <h3 id="popup-title"></h3>
+        <p id="popup-price"></p>
 
-        <button id="modal-add-btn">
+        <p id="popup-desc"></p>
+
+        <div id="popup-variants"></div>
+
+        <button id="popup-add-btn">
           ADD TO CART →
         </button>
 
       </div>
 
     </div>
+
   </div>
 </div>
-
-<script>
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const modal = document.getElementById("product-modal");
-  const closeBtn = document.querySelector(".product-modal_close");
-
-  let currentProduct = null;
-  let selectedVariant = null;
-
-  /* Open Modal */
-  document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
-
-    btn.addEventListener("click", async (e) => {
-
-      const handle = btn.dataset.handle;
-
-      const res = await fetch(`/products/${handle}.js`);
-      const product = await res.json();
-
-      currentProduct = product;
-
-      openModal(product);
-    });
-
-  });
-
-
-  /* Close Modal */
-  closeBtn.addEventListener("click", closeModal);
-
-  modal.querySelector(".product-modal_overlay")
-    .addEventListener("click", closeModal);
-
-
-  function closeModal() {
-    modal.classList.add("hidden");
-  }
-
-
-  /* Build Modal */
-  function openModal(product) {
-
-    document.getElementById("modal-image").src =
-      product.featured_image;
-
-    document.getElementById("modal-title").textContent =
-      product.title;
-
-    document.getElementById("modal-price").textContent =
-      `₹${(product.price / 100).toFixed(2)}`;
-
-    document.getElementById("modal-description").innerHTML =
-      product.description;
-
-    buildVariants(product);
-
-    modal.classList.remove("hidden");
-  }
-
-
-  /* Build Variant Selects */
-  function buildVariants(product) {
-
-    const container = document.getElementById("modal-variants");
-
-    container.innerHTML = "";
-
-    product.options.forEach((option, index) => {
-
-      const group = document.createElement("div");
-      group.className = "variant-group";
-
-      const label = document.createElement("label");
-      label.textContent = option;
-
-      const select = document.createElement("select");
-
-      product.variants.forEach(variant => {
-
-        const value = variant.options[index];
-
-        if (![...select.options].some(o => o.value === value)) {
-
-          const opt = document.createElement("option");
-          opt.value = value;
-          opt.textContent = value;
-
-          select.appendChild(opt);
-        }
-
-      });
-
-      select.addEventListener("change", findVariant);
-
-      group.append(label, select);
-
-      container.appendChild(group);
-
-    });
-
-    findVariant();
-  }
-
-
-  /* Find Selected Variant */
-  function findVariant() {
-
-    const selects =
-      document.querySelectorAll("#modal-variants select");
-
-    const selected = [...selects].map(s => s.value);
-
-    selectedVariant = currentProduct.variants.find(v => {
-
-      return v.options.every(
-        (opt, i) => opt === selected[i]
-      );
-
-    });
-
-  }
-
-
-  /* Add To Cart */
-  document
-    .getElementById("modal-add-btn")
-    .addEventListener("click", async () => {
-
-      if (!selectedVariant) return;
-
-      await addToCart(selectedVariant.id, 1);
-
-      /* Special Rule */
-      autoAddSoftJacket();
-
-      closeModal();
-    });
-
-
-  /* Add Item */
-  async function addToCart(id, qty) {
-
-    await fetch("/cart/add.js", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: id,
-        quantity: qty
-      })
-    });
-
-  }
-
-
-  /* Rule: Auto Add Jacket */
-  async function autoAddSoftJacket() {
-
-    const v = selectedVariant;
-
-    if (!v) return;
-
-    const hasBlack =
-      v.options.includes("Black");
-
-    const hasMedium =
-      v.options.includes("Medium");
-
-
-    if (hasBlack && hasMedium) {
-
-      const res = await fetch("/products/soft-winter-jacket.js");
-      const jacket = await res.json();
-
-      const firstVariant = jacket.variants[0];
-
-      await addToCart(firstVariant.id, 1);
-
-    }
-
-  }
-
-});
-</script>
