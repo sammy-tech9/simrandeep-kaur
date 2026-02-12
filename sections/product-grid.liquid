@@ -62,9 +62,11 @@
                 <div class="product-grid_item" data-product-handle="{{ product_obj.handle }}">
                     <img src="{{ product.featured_media.preview_image | image_url: 'medium' }}" alt="{{ product_obj.title }}" height="444px" width="433px">
                     <div class="btn">
-                    <button class="product-grid_info-btn" data-handle="{{ product_obj.handle }}">
-                        <img src="{{'icon-plus.svg' | asset_url}}" alt="view info" height="8px" width="8px"> 
-                    </button>
+                        <button 
+                            class="product-grid_info-btn" 
+                            data-handle="{{ product_obj.handle }}"
+                            aria-label="View product">+</button>
+                        
                     </div>
                 </div>
                 {% endif %}
