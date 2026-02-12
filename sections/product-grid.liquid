@@ -60,14 +60,16 @@
             {% assign product_obj = all_products[product_handle] %}
             {% if product_obj %}
                 <div class="product-grid_item" data-product-handle="{{ product_obj.handle }}">
-                    {% if product_obj.featured_image %}
-  <img
-    src="{{ product_obj.featured_image | image_url: '600x600' }}"
-    alt="{{ product_obj.title | escape }}"
-    loading="lazy"
-    width="433"
-    height="444"
-  >
+                        {% if product_obj.featured_image %}
+  {{
+    product_obj.featured_image
+    | image_url: width: 600
+    | image_tag:
+      alt: product_obj.title,
+      loading: 'lazy',
+      width: 433,
+      height: 444
+  }}
 {% endif %}
                     {% comment %} <img src="{{ product_obj.featured_image | image_url: 'medium'}}" alt="{{ product_obj.title }}" height="444px" width="433px"> {% endcomment %}
                     <div class="btn">
