@@ -1,7 +1,36 @@
 {% schema %}
 {
     "name": "Gift Guide",
-    "settings":[],
+    "settings":[
+        {
+            "type": "text",
+            "id": "announcement_logo",
+            "label": "Logo or company name",
+            "default": "Tisso Vision"
+        },
+
+        {
+            "type": "text",
+            "id": "announcement_centerline",
+            "label": "announcement",
+            "default": "Find the ideal gift for your loved ones"
+        },
+
+        {
+            "type": "text",
+            "id": "announcement_btn",
+            "label": "button",
+            "default": "CHOOSE GIFT"
+        },
+
+        {
+            "type": "text",
+            "id": "gift-guide_title",
+            "label": "heading",
+            "default": "The Gift Guide"
+        }
+        
+    ],
     "blocks":[],
     "presets": [
         {
@@ -13,11 +42,11 @@
 {% endschema %}
 
 <div class="gift-guide_announcement">
-    <div class="announcement_left">Tisso Vision
+    <div class="announcement_left">{{ settings.announcement_logo }}
     </div>
-    <div class="announcement_center">Find the ideal gift for your loved ones</div>
+    <div class="announcement_center">{{ settings.announcement_centerline }}</div>
     <div class="announcement_right">
-        <a href="#" class="announcement_btn">CHOOSE GIFT
+        <a href="{{ settings.Abutton_link }}" class="announcement_btn">{{ settings.announcement_btn }}
             <span class="announcement_arrow">
              <img src="{{ 'icon-arrow.svg' | asset_url }}" height="16px" width="16px" alt= "arrow">
              </span>
@@ -33,10 +62,10 @@
     <div class="gift-guide_whiteSpace">
 
         <div class="gift-guide_content">
-            <h2 class="gift-guide_title">The Gift Guide</h2>
-            <p class="gift-guide_text">Discover joy: your ultimate holiday gift destination. Explore our curated selection and find the perfecct gifts to delight your loved ones this holiday season.
+            <h2 class="gift-guide_title">{{ settings.gift-guide_title }}</h2>
+            <p class="gift-guide_text">{{ settings.gift-guide_subtitle }}
             </p>
-            <a href="#" class="gift-guide_btn">SHOP NOW
+            <a href="{{ settings.Bbutton_link }}" class="gift-guide_btn">{{ settings.gift-guide_btn }}
                 <span class="gift-guide_arrow">
                 <img src="{{ 'icon-arrow.svg' | asset_url }}" height="16px" width="16px" alt= "arrow">
                 </span>
@@ -49,5 +78,5 @@
 </section>  
 
 <div class="endline">
-<p class="tagline">SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZE XXS TO 6XL</p>
+<p class="tagline">{{ settings.tagline_ext }}</p>
 </div>
