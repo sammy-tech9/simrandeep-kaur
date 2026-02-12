@@ -208,7 +208,7 @@ color: #0b1a2b
   object-fit: cover;
 }
 
-.product-grid_info-btn{
+/* .product-grid_info-btn{
   position:absolute;
   bottom: 10px;
   right: 10px;
@@ -217,7 +217,7 @@ color: #0b1a2b
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
+} */
 
 
 
