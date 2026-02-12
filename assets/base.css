@@ -187,6 +187,105 @@ color: #0b1a2b
   background-color: #F5F5F5;
 }
 
+@media (max-width: 768px) {
+
+  /* =========================
+     Announcement Bar
+  ========================= */
+
+  .gift-guide_announcement {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 15px;
+    text-align: center;
+  }
+
+  .announcement_left,
+  .announcement_center,
+  .announcement_right {
+    flex: unset;
+    text-align: center;
+  }
+
+  .announcement_btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+
+  /* =========================
+     Main Banner Layout
+  ========================= */
+
+  .gift-guide {
+    grid-template-columns: 1fr; /* Single column */
+    padding: 40px 15px;
+  }
+
+  .gift-guide_whiteSpace {
+    margin: 0;
+    padding: 25px 20px;
+    padding-left: 20px;
+    margin-top: 0;
+    margin-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .gift-guide_content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+
+  /* =========================
+     Text Scaling
+  ========================= */
+
+  .gift-guide_title {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .gift-guide_text {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+
+  /* =========================
+     Button
+  ========================= */
+
+  .gift-guide_btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+
+  /* =========================
+     Background Frame
+  ========================= */
+
+  .gift-guide_frame img {
+    position: relative;
+    height: auto;
+    object-fit: contain;
+  }
+
+
+  /* =========================
+     Bottom Tagline
+  ========================= */
+
+  .endline {
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+
+}
+
 /* Grid Layout */
 .product-grid_container {
   display: grid;
