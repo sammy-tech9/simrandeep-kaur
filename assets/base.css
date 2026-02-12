@@ -197,6 +197,17 @@ color: #0b1a2b
   margin: 0 auto;
 }
 
+.product-grid_item{
+  position: relative;
+}
+
+.product-grid_item img{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 
 
 
