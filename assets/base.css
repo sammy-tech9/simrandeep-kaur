@@ -243,6 +243,57 @@ color: #0b1a2b
   transform: scale(1.05);
 }
 
+@media (max-width: 768px) {
+
+  /* Announcement */
+
+  .gift-guide_announcement {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .announcement_center {
+    order: 3;
+    font-size: 13px;
+  }
+
+  .announcement_right {
+    order: 2;
+  }
+
+
+  /* Banner */
+
+  .gift-guide {
+    padding: 40px 15px;
+  }
+
+  .gift-guide_title {
+    font-size: 28px;
+  }
+
+  .gift-guide_text {
+    font-size: 14px;
+  }
+
+
+  /* Button */
+
+  .gift-guide_btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+
+  /* Tagline */
+
+  .tagline {
+    font-size: 11px;
+  }
+}
+
 
 
 
