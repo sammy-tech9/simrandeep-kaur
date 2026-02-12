@@ -8,7 +8,167 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
-.gift-guide_announcement{
+/* ============================
+   GIFT GUIDE BANNER
+============================ */
+
+.gift-guide_announcement {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  font-size: 14px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.announcement_left {
+  font-weight: bold;
+}
+
+.announcement_center {
+  text-align: center;
+  flex: 1;
+}
+
+.announcement_right a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+
+/* Frame Image */
+
+.gift-guide_frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* Main Banner Section */
+
+.gift-guide {
+  padding: 60px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.gift-guide_content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.gift-guide_title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.gift-guide_text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+
+/* Button */
+
+.gift-guide_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000;
+  color: #fff;
+  padding: 12px 26px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.gift-guide_btn:hover {
+  background: #333;
+}
+
+
+/* Bottom Tagline */
+
+.endline {
+  padding: 15px 20px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.tagline {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #555;
+}
+
+
+
+/* ============================
+   MOBILE RESPONSIVE
+============================ */
+
+@media (max-width: 768px) {
+
+  /* Announcement */
+
+  .gift-guide_announcement {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .announcement_center {
+    order: 3;
+    font-size: 13px;
+  }
+
+  .announcement_right {
+    order: 2;
+  }
+
+
+  /* Banner */
+
+  .gift-guide {
+    padding: 40px 15px;
+  }
+
+  .gift-guide_title {
+    font-size: 28px;
+  }
+
+  .gift-guide_text {
+    font-size: 14px;
+  }
+
+
+  /* Button */
+
+  .gift-guide_btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+
+  /* Tagline */
+
+  .tagline {
+    font-size: 11px;
+  }
+}
+
+/* .gift-guide_announcement{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -292,7 +452,7 @@ color: #0b1a2b
   .tagline {
     font-size: 11px;
   }
-}
+} */
 
 
 
