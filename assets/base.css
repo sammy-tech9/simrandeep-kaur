@@ -8,167 +8,7 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
-/* ============================
-   GIFT GUIDE BANNER
-============================ */
-
-.gift-guide_announcement {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  font-size: 14px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-}
-
-.announcement_left {
-  font-weight: bold;
-}
-
-.announcement_center {
-  text-align: center;
-  flex: 1;
-}
-
-.announcement_right a {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 500;
-}
-
-
-/* Frame Image */
-
-.gift-guide_frame img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-
-/* Main Banner Section */
-
-.gift-guide {
-  padding: 60px 20px;
-  text-align: center;
-  background: #fff;
-}
-
-.gift-guide_content {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.gift-guide_title {
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.gift-guide_text {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #444;
-  margin-bottom: 25px;
-}
-
-
-/* Button */
-
-.gift-guide_btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #000;
-  color: #fff;
-  padding: 12px 26px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  transition: 0.3s ease;
-}
-
-.gift-guide_btn:hover {
-  background: #333;
-}
-
-
-/* Bottom Tagline */
-
-.endline {
-  padding: 15px 20px;
-  text-align: center;
-  border-top: 1px solid #eee;
-}
-
-.tagline {
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #555;
-}
-
-
-
-/* ============================
-   MOBILE RESPONSIVE
-============================ */
-
-@media (max-width: 768px) {
-
-  /* Announcement */
-
-  .gift-guide_announcement {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .announcement_center {
-    order: 3;
-    font-size: 13px;
-  }
-
-  .announcement_right {
-    order: 2;
-  }
-
-
-  /* Banner */
-
-  .gift-guide {
-    padding: 40px 15px;
-  }
-
-  .gift-guide_title {
-    font-size: 28px;
-  }
-
-  .gift-guide_text {
-    font-size: 14px;
-  }
-
-
-  /* Button */
-
-  .gift-guide_btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px;
-  }
-
-
-  /* Tagline */
-
-  .tagline {
-    font-size: 11px;
-  }
-}
-
-/* .gift-guide_announcement{
+.gift-guide_announcement{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -403,149 +243,84 @@ color: #0b1a2b
   transform: scale(1.05);
 }
 
-@media (max-width: 768px) {
-
-  /* Announcement */
-
-  .gift-guide_announcement {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .announcement_center {
-    order: 3;
-    font-size: 13px;
-  }
-
-  .announcement_right {
-    order: 2;
-  }
-
-
-  /* Banner */
-
-  .gift-guide {
-    padding: 40px 15px;
-  }
-
-  .gift-guide_title {
-    font-size: 28px;
-  }
-
-  .gift-guide_text {
-    font-size: 14px;
-  }
-
-
-  /* Button */
-
-  .gift-guide_btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px;
-  }
-
-
-  /* Tagline */
-
-  .tagline {
-    font-size: 11px;
-  }
-} */
-
 
 
 
 
 /* Modal */
 
-/* Product Popup */
+.product-modal.hidden {
+  display: none;
+}
 
-.product-popup {
+.product-modal {
   position: fixed;
   inset: 0;
   z-index: 9999;
 }
 
-.product-popup.hidden {
-  display: none;
-}
-
-.popup-overlay {
+.product-modal_overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
 }
 
-.popup-box {
+.product-modal_content {
   position: relative;
-  max-width: 700px;
-  width: 90%;
-  background: white;
-  margin: 5% auto;
-  padding: 25px;
+  background: #fff;
+  width: 380px;
+  max-width: 90%;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
 }
 
-.popup-close {
+.product-modal_close {
   position: absolute;
+  right: 12px;
   top: 10px;
-  right: 15px;
   background: none;
   border: none;
   font-size: 22px;
   cursor: pointer;
 }
 
-.popup-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.product-modal_body {
+  display: flex;
+  gap: 16px;
 }
 
-.popup-image img {
-  width: 100%;
+.product-modal_body img {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+}
+
+#modal-variants {
+  margin: 12px 0;
 }
 
 .variant-group {
-  margin: 15px 0;
+  margin-bottom: 10px;
 }
 
 .variant-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
+  margin-bottom: 4px;
 }
 
-.color-options {
-  display: flex;
-  gap: 10px;
-}
-
-.color-options button {
-  border: 1px solid #000;
-  padding: 6px 15px;
-  background: white;
-  cursor: pointer;
-}
-
-.color-options button.active {
-  background: black;
-  color: white;
-}
-
-.variant-select {
+.variant-group select {
   width: 100%;
-  padding: 8px;
+  padding: 6px;
 }
 
-#popup-add-btn {
+#modal-add-btn {
   width: 100%;
-  background: black;
-  color: white;
   padding: 12px;
+  background: #000;
+  color: #fff;
   border: none;
-  margin-top: 15px;
   cursor: pointer;
 }
 
