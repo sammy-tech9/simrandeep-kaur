@@ -61,6 +61,8 @@
             {% if product_obj %}
                 <div class="product-grid_item" data-product-handle="{{ product_obj.handle }}">
                     <img src="{{ product_obj.featured_image | image_url: 'medium' }}" alt="{{ product_obj.title }}" height="444px" width="433px">
+                    <h3>{{ product_obj.title }}</h3>
+                    <p>{{ product_obj.price | money }}</p>
                 </div>
                 {% endif %}
                 {% endfor %}
