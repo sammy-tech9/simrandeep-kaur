@@ -187,100 +187,75 @@ color: #0b1a2b
   background-color: #F5F5F5;
 }
 
+/* ===============================
+   MOBILE RESPONSIVE FIX
+   =============================== */
+
 @media (max-width: 768px) {
 
-  /* =========================
-     Announcement Bar
-  ========================= */
+  /* Hide "Choose Gift" button */
+  .announcement_right {
+    display: none;
+  }
 
+  /* Center announcement text */
   .gift-guide_announcement {
     flex-direction: column;
     gap: 8px;
-    padding: 10px 15px;
+    padding: 15px 20px;
     text-align: center;
   }
 
   .announcement_left,
-  .announcement_center,
-  .announcement_right {
-    flex: unset;
+  .announcement_center {
     text-align: center;
   }
 
-  .announcement_btn {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
-
-
-  /* =========================
-     Main Banner Layout
-  ========================= */
-
+  /* Make banner stack vertically */
   .gift-guide {
-    grid-template-columns: 1fr; /* Single column */
-    padding: 40px 15px;
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
   }
 
+  /* Move content above image */
   .gift-guide_whiteSpace {
     margin: 0;
-    padding: 25px 20px;
-    padding-left: 20px;
-    margin-top: 0;
-    margin-right: 0;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 30px 20px;
+    text-align: center;
   }
 
   .gift-guide_content {
     max-width: 100%;
-    text-align: center;
   }
 
-
-  /* =========================
-     Text Scaling
-  ========================= */
-
+  /* Smaller heading */
   .gift-guide_title {
-    font-size: 28px;
-    margin-bottom: 15px;
+    font-size: 32px;
   }
 
+  /* Better paragraph spacing */
   .gift-guide_text {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 20px;
   }
 
-
-  /* =========================
-     Button
-  ========================= */
-
+  /* Center button */
   .gift-guide_btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px;
+    margin: 0 auto 25px;
   }
 
-
-  /* =========================
-     Background Frame
-  ========================= */
-
+  /* Zoom out frame image */
   .gift-guide_frame img {
     position: relative;
+    width: 100%;
     height: auto;
     object-fit: contain;
+    margin-top: 20px;
   }
 
-
-  /* =========================
-     Bottom Tagline
-  ========================= */
-
+  /* Fix bottom tagline */
   .endline {
-    padding: 10px 15px;
+    padding: 15px 20px;
     font-size: 12px;
   }
 
