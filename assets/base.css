@@ -100,9 +100,9 @@
 .gift-guide_content{
   max-width:420px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   align-content: left;
-  opacity: 1 !important;
+
   
 }
 
