@@ -60,7 +60,7 @@
             {% assign product_obj = all_products[product_handle] %}
             {% if product_obj %}
                 <div class="product-grid_item" data-product-handle="{{ product_obj.handle }}">
-                    <img src="{{ product.featured_media.preview_image | image_url: 'medium' }}" alt="{{ product_obj.title }}" height="444px" width="433px">
+                    <img src="{{ product.featured_media.preview_image | image_url: width:"800" }}" alt="{{ product_obj.title }}" height="444px" width="433px">
                     <div class="btn">
                         <button 
                             class="product-grid_info-btn" 
