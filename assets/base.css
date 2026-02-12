@@ -249,78 +249,92 @@ color: #0b1a2b
 
 /* Modal */
 
-.product-modal.hidden {
-  display: none;
-}
+/* Product Popup */
 
-.product-modal {
+.product-popup {
   position: fixed;
   inset: 0;
   z-index: 9999;
 }
 
-.product-modal_overlay {
+.product-popup.hidden {
+  display: none;
+}
+
+.popup-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.5);
 }
 
-.product-modal_content {
+.popup-box {
   position: relative;
-  background: #fff;
-  width: 380px;
-  max-width: 90%;
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 20px;
+  max-width: 700px;
+  width: 90%;
+  background: white;
+  margin: 5% auto;
+  padding: 25px;
 }
 
-.product-modal_close {
+.popup-close {
   position: absolute;
-  right: 12px;
   top: 10px;
+  right: 15px;
   background: none;
   border: none;
   font-size: 22px;
   cursor: pointer;
 }
 
-.product-modal_body {
-  display: flex;
-  gap: 16px;
+.popup-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-.product-modal_body img {
-  width: 120px;
-  height: 150px;
-  object-fit: cover;
-}
-
-#modal-variants {
-  margin: 12px 0;
+.popup-image img {
+  width: 100%;
 }
 
 .variant-group {
-  margin-bottom: 10px;
+  margin: 15px 0;
 }
 
 .variant-group label {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
-.variant-group select {
-  width: 100%;
-  padding: 6px;
+.color-options {
+  display: flex;
+  gap: 10px;
 }
 
-#modal-add-btn {
+.color-options button {
+  border: 1px solid #000;
+  padding: 6px 15px;
+  background: white;
+  cursor: pointer;
+}
+
+.color-options button.active {
+  background: black;
+  color: white;
+}
+
+.variant-select {
   width: 100%;
+  padding: 8px;
+}
+
+#popup-add-btn {
+  width: 100%;
+  background: black;
+  color: white;
   padding: 12px;
-  background: #000;
-  color: #fff;
   border: none;
+  margin-top: 15px;
   cursor: pointer;
 }
 
