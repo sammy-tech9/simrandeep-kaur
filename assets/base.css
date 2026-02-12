@@ -246,6 +246,85 @@ color: #0b1a2b
 
 
 
+
+/* Modal */
+
+.product-modal.hidden {
+  display: none;
+}
+
+.product-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.product-modal_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.product-modal_content {
+  position: relative;
+  background: #fff;
+  width: 380px;
+  max-width: 90%;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
+}
+
+.product-modal_close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.product-modal_body {
+  display: flex;
+  gap: 16px;
+}
+
+.product-modal_body img {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+}
+
+#modal-variants {
+  margin: 12px 0;
+}
+
+.variant-group {
+  margin-bottom: 10px;
+}
+
+.variant-group label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.variant-group select {
+  width: 100%;
+  padding: 6px;
+}
+
+#modal-add-btn {
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
