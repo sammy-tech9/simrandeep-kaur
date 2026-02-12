@@ -49,8 +49,49 @@
 {% endschema %}
 
 <section class="product-grid-section">
+
     <h2>{{ section.settings.grid_heading }}</h2>
+
     <div class="product-grid_container">
+
+  {% assign products = 
+    section.settings.product_1 |
+    concat: section.settings.product_2 |
+    concat: section.settings.product_3 |
+    concat: section.settings.product_4 |
+    concat: section.settings.product_5 |
+    concat: section.settings.product_6
+  %}
+
+  {% for product in products %}
+
+    {% if product != blank %}
+
+      <div class="product-grid_item" data-product-handle="{{ product.handle }}">
+
+        <img 
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          alt="{{ product.title }}" height="100%" width="100%"
+          loading="lazy"
+        >
+
+        <button 
+          class="product-grid_info-btn"
+          data-handle="{{ product.handle }}"
+          aria-label="View product"
+        >
+          +
+        </button>
+
+      </div>
+
+    {% endif %}
+
+  {% endfor %}
+
+</div>
+
+    {% comment %} <div class="product-grid_container">
 
         {% assign products_list = section.settings.product_1 | append: ',' | append: section.settings.product_2 | append: ',' | append: section.settings.product_3 | append: ',' |
         append: section.settings.product_4 | append: ',' | append: section.settings.product_5 | append: ',' | append: section.settings.product_6 %}
@@ -67,6 +108,6 @@
                 </div>
                 {% endif %}
                 {% endfor %}
-    </div>
+    </div> {% endcomment %}
     </section>
 
