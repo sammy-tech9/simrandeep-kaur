@@ -213,12 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const color = selectedColor;
       console.log("Selected:", color, size);
 
-      // if (color === "Black" && size === "Medium")
-        if (
-  color.toLowerCase().trim() === "black" &&
-  (size.toLowerCase().trim() === "medium" || size.toLowerCase().trim() === "m")
-) {
- {
+      if (color === "Black" && size === "Medium")
+         {
 
         const jacketRes = await fetch("/products/dark-winter-jacket.js");
         const jacketProduct = await jacketRes.json();
