@@ -66,115 +66,117 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  /* ================= COLORS SLIDER ================= */
+  // ================= BUILD COLOR BUTTONS =================
 
-function setupColors(product) {
+function buildColors(product) {
 
   const colorBox = document.getElementById("popup-color");
-  const buttons = colorBox.querySelectorAll(".color-btn");
+  colorBox.innerHTML = '<span class="color-slider"></span>';
+
   const slider = colorBox.querySelector(".color-slider");
 
-  // Color = option2 (CSV fix)
-  const colors = [...new Set(product.variants.map(v => v.option2))];
+  // Get unique colors from variants
+  const colors = [...new Set(product.variants.map(v => v.option1))];
 
-  selectedColor = colors[0] || "";
+  colors.forEach((color, index) => {
 
-  buttons.forEach((btn, index) => {
+    const btn = document.createElement("button");
+    btn.className = "color-btn";
+    btn.textContent = color;
+    btn.dataset.color = color;
 
-    const color = btn.dataset.color;
-
-    // Hide unused buttons
-    if (!colors.includes(color)) {
-      btn.style.display = "none";
-      return;
-    } else {
-      btn.style.display = "block";
+    if (index === 0) {
+      btn.classList.add("active");
+      selectedColor = color;
+      slider.style.left = "0%";
     }
 
-    // Default active
-    if (color === selectedColor) {
-      setActive(btn, index);
-    } else {
-      btn.classList.remove("active");
-    }
+    btn.addEventListener("click", () => {
 
-    // Click event
-    btn.onclick = () => {
+      // Remove active
+      colorBox.querySelectorAll(".color-btn")
+        .forEach(b => b.classList.remove("active"));
 
-      buttons.forEach(b => b.classList.remove("active"));
+      // Add active
+      btn.classList.add("active");
 
-      setActive(btn, index);
+      // Move slider
+      slider.style.left = (index * 100 / colors.length) + "%";
 
       selectedColor = color;
 
       updateVariant();
-    };
+    });
 
+    colorBox.appendChild(btn);
   });
 
-
-  /* Move slider + activate button */
-  function setActive(btn, index) {
-
-    btn.classList.add("active");
-
-    // Move background
-    slider.style.left = index === 0 ? "0%" : "50%";
-
-  }
-
+  // Resize slider
+  slider.style.width = (100 / colors.length) + "%";
 }
 
 
-  /* ================= COLORS (FROM OPTION2) ================= */
+//   /* ================= COLORS SLIDER ================= */
+
+// function setupColors(product) {
+
+//   const colorBox = document.getElementById("popup-color");
+//   const buttons = colorBox.querySelectorAll(".color-btn");
+//   const slider = colorBox.querySelector(".color-slider");
+
+//   // Color = option2 (CSV fix)
+//   const colors = [...new Set(product.variants.map(v => v.option2))];
+
+//   selectedColor = colors[0] || "";
+
+//   buttons.forEach((btn, index) => {
+
+//     const color = btn.dataset.color;
+
+//     // Hide unused buttons
+//     if (!colors.includes(color)) {
+//       btn.style.display = "none";
+//       return;
+//     } else {
+//       btn.style.display = "block";
+//     }
+
+//     // Default active
+//     if (color === selectedColor) {
+//       setActive(btn, index);
+//     } else {
+//       btn.classList.remove("active");
+//     }
+
+//     // Click event
+//     btn.onclick = () => {
+
+//       buttons.forEach(b => b.classList.remove("active"));
+
+//       setActive(btn, index);
+
+//       selectedColor = color;
+
+//       updateVariant();
+//     };
+
+//   });
 
 
-  // function setupColors(product) {
+//   /* Move slider + activate button */
+//   function setActive(btn, index) {
 
-  //   const colorBox = document.getElementById("popup-color");
-  //   const buttons = colorBox.querySelectorAll(".color-btn");
-  //   const slider = colorBox.querySelector(".color-slider");
+//     btn.classList.add("active");
 
-  //   // 👇 CSV FIX: Color = option2
-  //   const colors = [...new Set(product.variants.map(v => v.option2))];
+//     // Move background
+//     slider.style.left = index === 0 ? "0%" : "50%";
 
-  //   selectedColor = colors[0] || "";
+//   }
 
-  //   buttons.forEach((btn, index) => {
+// }
 
-  //     const color = btn.dataset.color;
 
-  //     if (!colors.includes(color)) {
-  //       btn.style.display = "none";
-  //       return;
-  //     } else {
-  //       btn.style.display = "block";
-  //     }
-
-  //     if (color === selectedColor) {
-  //       btn.classList.add("active");
-  //       slider.style.left = index * 50 + "%";
-  //     } else {
-  //       btn.classList.remove("active");
-  //     }
-
-  //     btn.onclick = () => {
-
-  //       buttons.forEach(b => b.classList.remove("active"));
-
-  //       btn.classList.add("active");
-
-  //       slider.style.left = index * 50 + "%";
-
-  //       selectedColor = color;
-
-  //       updateVariant();
-  //     };
-
-  //   });
-
-  // }
-
+ 
 
   /* ================= SIZES (FROM OPTION1) ================= */
 
