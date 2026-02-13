@@ -1,3 +1,162 @@
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const popup = document.getElementById("product-popup");
+  const closeBtn = document.querySelector(".popup-close");
+  const overlay = document.querySelector(".popup-overlay");
+
+  let currentProduct = null;
+  let selectedVariant = null;
+
+
+  /* Open popup */
+  document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
+
+    btn.addEventListener("click", async () => {
+
+      const handle = btn.dataset.handle;
+
+      const res = await fetch(`/products/${handle}.js`);
+      const product = await res.json();
+
+      openPopup(product);
+
+    });
+
+  });
+
+
+  /* Close popup */
+  closeBtn.onclick = closePopup;
+  overlay.onclick = closePopup;
+
+
+  function closePopup() {
+    popup.classList.add("hidden");
+  }
+
+
+  /* Open popup */
+  function openPopup(product) {
+
+    currentProduct = product;
+
+    popup.classList.remove("hidden");
+
+    /* Basic info */
+    document.getElementById("popup-img").src = product.images[0];
+    document.getElementById("popup-title").innerText = product.title;
+
+    document.getElementById("popup-price").innerText =
+      "₹" + (product.price / 100).toFixed(2);
+
+    document.getElementById("popup-desc").innerText =
+      product.description.replace(/(<([^>]+)>)/gi, "");
+
+    buildOptions(product);
+
+  }
+
+
+  /* Build variant dropdowns */
+  function buildOptions(product) {
+
+    const colorSelect = document.getElementById("popup-color");
+    const sizeSelect = document.getElementById("popup-size");
+
+    colorSelect.innerHTML = "";
+    sizeSelect.innerHTML = "";
+
+    const colors = [...new Set(product.variants.map(v => v.option1))];
+    const sizes  = [...new Set(product.variants.map(v => v.option2))];
+
+
+    colors.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      colorSelect.appendChild(opt);
+    });
+
+
+    sizes.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sizeSelect.appendChild(opt);
+    });
+
+
+    updateVariant();
+
+    colorSelect.onchange = updateVariant;
+    sizeSelect.onchange = updateVariant;
+
+  }
+
+
+  /* Match selected variant */
+  function updateVariant() {
+
+    const color = document.getElementById("popup-color").value;
+    const size  = document.getElementById("popup-size").value;
+
+    selectedVariant = currentProduct.variants.find(v =>
+      v.option1 === color && v.option2 === size
+    );
+
+  }
+
+
+  /* Add to cart */
+  document.getElementById("popup-add-btn").onclick = async () => {
+
+    if (!selectedVariant) {
+      alert("Please select options");
+      return;
+    }
+
+    /* Add main product */
+    await fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: selectedVariant.id,
+        quantity: 1
+      })
+    });
+
+
+    /* BONUS RULE: Auto add Soft Winter Jacket */
+    if (
+      selectedVariant.option1 === "Black" &&
+      selectedVariant.option2 === "Medium"
+    ) {
+
+      const res = await fetch("/products/soft-winter-jacket.js");
+      const jacket = await res.json();
+
+      await fetch("/cart/add.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: jacket.variants[0].id,
+          quantity: 1
+        })
+      });
+
+    }
+
+    closePopup();
+
+  };
+
+});
+</script>
 
 
 

@@ -398,6 +398,118 @@ color: #0b1a2b
   cursor: pointer;
 }
 
+/* ================= POPUP ================= */
+
+.product-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.product-popup.hidden {
+  display: none;
+}
+
+.popup-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+/* Box */
+.popup-box {
+  background: #fff;
+  width: 90%;
+  max-width: 700px;
+  padding: 25px;
+  position: relative;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Close */
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Layout */
+.popup-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 25px;
+}
+
+/* Image */
+.popup-image img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+/* Info */
+.popup-info h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+#popup-price {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+#popup-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* Fields */
+.popup-field {
+  margin-bottom: 12px;
+}
+
+.popup-field label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.popup-field select {
+  width: 100%;
+  padding: 8px;
+}
+
+/* Button */
+.popup-btn {
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .popup-content {
+    grid-template-columns: 1fr;
+  }
+
+  .popup-box {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+}
 
 
 
