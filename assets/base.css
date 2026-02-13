@@ -495,7 +495,7 @@ color: #0b1a2b
   /* Default (not selected) */
   color: #000;
 
-  transition: color 0.3s ease;
+  /* transition: color 0.3s ease; */
 }
 
 /* When selected */
