@@ -482,6 +482,7 @@ color: #0b1a2b
   background: #fff;
 }
 
+
 .color-btn {
   flex: 1;
   background: transparent;
@@ -490,17 +491,18 @@ color: #0b1a2b
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+
+  /* Default (not selected) */
   color: #000;
+
   transition: color 0.3s ease;
 }
 
-.color-btn{
-  color: #0b1a2b;
-}
-
-.color-btn{
+/* When selected */
+.color-btn.active {
   color: #fff;
 }
+
 
 /* Sliding background */
 .color-slider {
