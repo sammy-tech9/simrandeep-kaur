@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", async () => {
 
+      console.log("HANDLE =", btn.dataset.handle); 
+
       const handle = btn.dataset.handle;
 
       if (!handle) return;
