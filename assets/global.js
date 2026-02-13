@@ -1,4 +1,4 @@
-<script>
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
-</script>
+
 
 
 
