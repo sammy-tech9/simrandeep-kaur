@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const color = btn.dataset.color;
 
       if (!colors.includes(color)) {
-        btn.style.display = "";
+        btn.style.display = "none";
         return;
       } else {
         btn.style.display = "block";
