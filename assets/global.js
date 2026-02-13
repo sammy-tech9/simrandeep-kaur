@@ -1,4 +1,4 @@
-<script>
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
@@ -159,7 +159,7 @@ if (colorBox) {
   };
 
 });
-</script>
+
 
 
 
