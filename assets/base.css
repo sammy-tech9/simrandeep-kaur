@@ -494,11 +494,11 @@ color: #0b1a2b
   transition: color 0.3s ease;
 }
 
-.color-btn_1 {
+.color-btn{
   color: #0b1a2b;
 }
 
-.color-btn_2{
+.color-btn{
   color: #fff;
 }
 
