@@ -1,3 +1,219 @@
+// document.addEventListener("DOMContentLoaded", () => {
+
+//   const popup = document.getElementById("product-popup");
+//   const closeBtn = document.querySelector(".popup-close");
+//   const addBtn = document.getElementById("popup-add-btn");
+
+//   let currentProduct = null;
+//   let selectedVariant = null;
+//   let selectedColor = "";
+
+
+//   /* ================= OPEN POPUP ================= */
+
+//   document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
+
+//     btn.addEventListener("click", async () => {
+
+//       const handle = btn.dataset.handle;
+
+//       if (!handle) return;
+
+//       try {
+
+//         const res = await fetch(`/products/${handle}.js`);
+//         const product = await res.json();
+
+//         openPopup(product);
+
+//       } catch (err) {
+//         console.error("Product fetch error:", err);
+//       }
+
+//     });
+
+//   });
+
+
+//   /* ================= CLOSE POPUP ================= */
+
+//   closeBtn.addEventListener("click", closePopup);
+
+//   popup.addEventListener("click", e => {
+//     if (e.target.classList.contains("popup-overlay")) {
+//       closePopup();
+//     }
+//   });
+
+//   function closePopup() {
+//     popup.classList.add("hidden");
+//   }
+
+
+//   /* ================= OPEN POPUP ================= */
+
+//   function openPopup(product) {
+
+//     currentProduct = product;
+
+//     popup.classList.remove("hidden");
+
+//     /* Basic info */
+
+//     document.getElementById("popup-img").src =
+//       product.images[0] || "";
+
+//     document.getElementById("popup-title").innerText =
+//       product.title;
+
+//     document.getElementById("popup-price").innerText =
+//       "₹" + (product.price / 100).toFixed(2);
+
+//     document.getElementById("popup-desc").innerText =
+//       product.description.replace(/(<([^>]+)>)/gi, "");
+
+//     buildColors(product);
+//     buildSizes(product);
+
+//   }
+
+
+//   /* ================= BUILD COLORS ================= */
+//   /* CSV: Color = option2 */
+
+//   function buildColors(product) {
+
+//     const colorBox = document.getElementById("popup-color");
+
+//     colorBox.innerHTML = '<span class="color-slider"></span>';
+
+//     const slider = colorBox.querySelector(".color-slider");
+
+//     const colors = [
+//       ...new Set(product.variants.map(v => v.option2))
+//     ];
+
+//     if (!colors.length) return;
+
+//     selectedColor = colors[0];
+
+//     colors.forEach((color, index) => {
+
+//       const btn = document.createElement("button");
+
+//       btn.className = "color-btn";
+//       btn.textContent = color;
+//       btn.dataset.color = color;
+
+//       if (index === 0) {
+//         btn.classList.add("active");
+//         slider.style.left = "0%";
+//       }
+
+//       btn.addEventListener("click", () => {
+
+//         document.querySelectorAll(".color-btn")
+//           .forEach(b => b.classList.remove("active"));
+
+//         btn.classList.add("active");
+
+//         slider.style.left = (100 / colors.length) * index + "%";
+
+//         selectedColor = color;
+
+//         updateVariant();
+
+//       });
+
+//       colorBox.appendChild(btn);
+
+//     });
+
+//     /* Resize slider */
+//     slider.style.width = 100 / colors.length + "%";
+
+//   }
+
+
+//   /* ================= BUILD SIZES ================= */
+//   /* CSV: Size = option1 */
+
+//   function buildSizes(product) {
+
+//     const sizeSelect = document.getElementById("popup-size");
+
+//     sizeSelect.innerHTML = "";
+
+//     const sizes = [
+//       ...new Set(product.variants.map(v => v.option1))
+//     ];
+
+//     sizes.forEach(size => {
+
+//       const opt = document.createElement("option");
+
+//       opt.value = size;
+//       opt.textContent = size;
+
+//       sizeSelect.appendChild(opt);
+
+//     });
+
+//     sizeSelect.addEventListener("change", updateVariant);
+
+//     updateVariant();
+
+//   }
+
+
+//   /* ================= FIND VARIANT ================= */
+
+//   function updateVariant() {
+
+//     if (!currentProduct) return;
+
+//     const size = document.getElementById("popup-size").value;
+
+//     selectedVariant = currentProduct.variants.find(v =>
+//       v.option2 === selectedColor &&
+//       v.option1 === size
+//     );
+
+//   }
+
+
+//   /* ================= ADD TO CART ================= */
+
+//   addBtn.addEventListener("click", async () => {
+
+//     if (!selectedVariant) {
+//       alert("Please select color and size");
+//       return;
+//     }
+
+//     try {
+
+//       await fetch("/cart/add.js", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//           id: selectedVariant.id,
+//           quantity: 1
+//         })
+//       });
+
+//       closePopup();
+
+//     } catch (err) {
+//       console.error("Add to cart error:", err);
+//     }
+
+//   });
+
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
@@ -107,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (index === 0) {
         btn.classList.add("active");
-        slider.style.left = "0%";
+        slider.style.transform = "translateX(0%)";
       }
 
       btn.addEventListener("click", () => {
@@ -117,7 +333,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         btn.classList.add("active");
 
-        slider.style.left = (100 / colors.length) * index + "%";
+        slider.style.transform =
+          `translateX(${index * 100}%)`;
 
         selectedColor = color;
 
@@ -193,6 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
+      /* Add main product */
       await fetch("/cart/add.js", {
         method: "POST",
         headers: {
@@ -204,6 +422,35 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       });
 
+
+      /* ========== AUTO ADD JACKET (Black + Medium) ========== */
+
+      const size = document.getElementById("popup-size").value;
+      const color = selectedColor;
+
+      if (color === "Black" && size === "Medium") {
+
+        const jacketRes = await fetch("/products/dark-winter-jacket.js");
+        const jacketProduct = await jacketRes.json();
+
+        const jacketVariantId =
+          jacketProduct.variants[0].id;
+
+        await fetch("/cart/add.js", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            id: jacketVariantId,
+            quantity: 1
+          })
+        });
+
+      }
+
+      /* ===================================================== */
+
       closePopup();
 
     } catch (err) {
@@ -213,6 +460,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+
+
+
+
+
+
 
 
 
