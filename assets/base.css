@@ -470,8 +470,6 @@ color: #0b1a2b
 
 /* ================= COLOR SWITCH ================= */
 
-/* ================= COLOR SWITCH ================= */
-
 .color-switch {
   position: relative;
   display: flex;
@@ -503,15 +501,17 @@ color: #0b1a2b
 /* Sliding background */
 .color-slider {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 50%;
   height: 100%;
   background: #000;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
   z-index: 1;
+  transform: translateX(0%);
 }
+
 
 
 /* ================= SIZE ================= */
