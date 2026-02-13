@@ -1,205 +1,12 @@
 
-// document.addEventListener("DOMContentLoaded", () => {
-
-//   const popup = document.getElementById("product-popup");
-//   const closeBtn = document.querySelector(".popup-close");
-
-//   let currentProduct = null;
-//   let selectedVariant = null;
-//   let selectedColor = "";
-
-
-//   /* ================= OPEN POPUP ================= */
-
-//   document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
-
-//     btn.addEventListener("click", async () => {
-
-//       console.log("HANDLE =", btn.dataset.handle); 
-
-//       const handle = btn.dataset.handle;
-
-//       if (!handle) return;
-
-//       const res = await fetch(`/products/${handle}.js`);
-//       const product = await res.json();
-
-//       openPopup(product);
-
-//     });
-
-//   });
-
-
-//   /* ================= CLOSE ================= */
-
-//   closeBtn.onclick = closePopup;
-
-//   popup.addEventListener("click", e => {
-//     if (e.target.classList.contains("popup-overlay")) {
-//       closePopup();
-//     }
-//   });
-
-//   function closePopup() {
-//     popup.classList.add("hidden");
-//   }
-
-
-//   /* ================= OPEN ================= */
-
-//   function openPopup(product) {
-
-//     currentProduct = product;
-
-//     popup.classList.remove("hidden");
-
-//     document.getElementById("popup-img").src = product.images[0] || "";
-//     document.getElementById("popup-title").innerText = product.title;
-
-//     document.getElementById("popup-price").innerText =
-//       "₹" + (product.price / 100).toFixed(2);
-
-//     document.getElementById("popup-desc").innerText =
-//       product.description.replace(/(<([^>]+)>)/gi, "");
-
-//     setupColors(product);
-//     setupSizes(product);
-
-//   }
-
-
-//   /* ================= COLORS (FROM OPTION2) ================= */
-
-//   function setupColors(product) {
-
-//     const colorBox = document.getElementById("popup-color");
-//     const buttons = colorBox.querySelectorAll(".color-btn");
-//     const slider = colorBox.querySelector(".color-slider");
-
-//     // 👇 CSV FIX: Color = option2
-//     const colors = [...new Set(product.variants.map(v => v.option2))];
-
-//     selectedColor = colors[0] || "";
-
-//     buttons.forEach((btn, index) => {
-
-//       const color = btn.dataset.color;
-
-//       if (!colors.includes(color)) {
-//         btn.style.display = "none";
-//         return;
-//       } else {
-//         btn.style.display = "block";
-//       }
-
-//       if (color === selectedColor) {
-//         btn.classList.add("active");
-//         slider.style.left = index * 50 + "%";
-//       } else {
-//         btn.classList.remove("active");
-//       }
-
-//       btn.onclick = () => {
-
-//         buttons.forEach(b => b.classList.remove("active"));
-
-//         btn.classList.add("active");
-
-//         slider.style.left = index * 50 + "%";
-
-//         selectedColor = color;
-
-//         updateVariant();
-//       };
-
-//     });
-
-//   }
-
-
-//   /* ================= SIZES (FROM OPTION1) ================= */
-
-//   function setupSizes(product) {
-
-//     const sizeSelect = document.getElementById("popup-size");
-
-//     sizeSelect.innerHTML = "";
-
-//     // 👇 CSV FIX: Size = option1
-//     const sizes = [...new Set(product.variants.map(v => v.option1))];
-
-//     sizes.forEach(size => {
-
-//       const opt = document.createElement("option");
-
-//       opt.value = size;
-//       opt.textContent = size;
-
-//       sizeSelect.appendChild(opt);
-
-//     });
-
-//     sizeSelect.onchange = updateVariant;
-
-//     updateVariant();
-
-//   }
-
-
-//   /* ================= VARIANT ================= */
-
-//   function updateVariant() {
-
-//     if (!currentProduct) return;
-
-//     const size = document.getElementById("popup-size").value;
-
-//     // 👇 MATCH CSV ORDER
-//     selectedVariant = currentProduct.variants.find(v =>
-//       v.option2 === selectedColor &&
-//       v.option1 === size
-//     );
-
-//   }
-
-
-//   /* ================= ADD TO CART ================= */
-
-//   document.getElementById("popup-add-btn").onclick = async () => {
-
-//     if (!selectedVariant) {
-//       alert("Please select color & size");
-//       return;
-//     }
-
-//     await fetch("/cart/add.js", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({
-//         id: selectedVariant.id,
-//         quantity: 1
-//       })
-//     });
-
-//     closePopup();
-
-//   };
-
-// });
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
   const closeBtn = document.querySelector(".popup-close");
 
   let currentProduct = null;
-  let selectedColor = null;
-  let selectedSize = null;
   let selectedVariant = null;
+  let selectedColor = "";
 
 
   /* ================= OPEN POPUP ================= */
@@ -208,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", async () => {
 
+      console.log("HANDLE =", btn.dataset.handle); 
+
       const handle = btn.dataset.handle;
+
+      if (!handle) return;
 
       const res = await fetch(`/products/${handle}.js`);
       const product = await res.json();
@@ -230,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   function closePopup() {
     popup.classList.add("hidden");
   }
@@ -244,73 +54,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     popup.classList.remove("hidden");
 
-    // Basic Info
-    document.getElementById("popup-img").src = product.images[0];
+    document.getElementById("popup-img").src = product.images[0] || "";
     document.getElementById("popup-title").innerText = product.title;
+
     document.getElementById("popup-price").innerText =
       "₹" + (product.price / 100).toFixed(2);
 
     document.getElementById("popup-desc").innerText =
       product.description.replace(/(<([^>]+)>)/gi, "");
 
-    buildOptions(product);
+    setupColors(product);
+    setupSizes(product);
 
   }
 
 
-  /* ================= BUILD OPTIONS ================= */
+  /* ================= COLORS (FROM OPTION2) ================= */
 
-  function buildOptions(product) {
+  function setupColors(product) {
 
-    buildColors(product);
-    buildSizes(product);
+    const colorBox = document.getElementById("popup-color");
+    const buttons = colorBox.querySelectorAll(".color-btn");
+    const slider = colorBox.querySelector(".color-slider");
 
-    findVariant();
+    // 👇 CSV FIX: Color = option2
+    const colors = [...new Set(product.variants.map(v => v.option2))];
 
-  }
-
-
-  /* ================= COLORS ================= */
-
-  function buildColors(product) {
-
-    const box = document.getElementById("popup-color");
-
-    const buttons = box.querySelectorAll(".color-btn");
-    const slider = box.querySelector(".color-slider");
-
-    const colors = [...new Set(product.variants.map(v => v.option1))];
-
-    // Hide if only 1 color
-    if (colors.length <= 1) {
-      box.style.display = "none";
-      selectedColor = colors[0];
-      return;
-    }
-
-    box.style.display = "flex";
-
-    buttons.forEach((btn, i) => {
-
-      if (colors[i]) {
-        btn.innerText = colors[i];
-        btn.dataset.color = colors[i];
-        btn.style.display = "block";
-      } else {
-        btn.style.display = "none";
-      }
-
-    });
-
-    // Default
-    selectedColor = colors[0];
-
-    buttons.forEach(b => b.classList.remove("active"));
-    buttons[0].classList.add("active");
-    slider.style.left = "0%";
-
+    selectedColor = colors[0] || "";
 
     buttons.forEach((btn, index) => {
+
+      const color = btn.dataset.color;
+
+      if (!colors.includes(color)) {
+        btn.style.display = "none";
+        return;
+      } else {
+        btn.style.display = "block";
+      }
+
+      if (color === selectedColor) {
+        btn.classList.add("active");
+        slider.style.left = index * 50 + "%";
+      } else {
+        btn.classList.remove("active");
+      }
 
       btn.onclick = () => {
 
@@ -320,10 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         slider.style.left = index * 50 + "%";
 
-        selectedColor = btn.dataset.color;
+        selectedColor = color;
 
-        findVariant();
-
+        updateVariant();
       };
 
     });
@@ -331,66 +118,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= SIZES ================= */
+  /* ================= SIZES (FROM OPTION1) ================= */
 
-  function buildSizes(product) {
+  function setupSizes(product) {
 
-    const select = document.getElementById("popup-size");
+    const sizeSelect = document.getElementById("popup-size");
 
-    select.innerHTML = "";
+    sizeSelect.innerHTML = "";
 
-    const sizes = [...new Set(product.variants.map(v => v.option2))];
+    // 👇 CSV FIX: Size = option1
+    const sizes = [...new Set(product.variants.map(v => v.option1))];
 
-    sizes.forEach(s => {
-
-      if (!s) return;
+    sizes.forEach(size => {
 
       const opt = document.createElement("option");
-      opt.value = s;
-      opt.innerText = s;
 
-      select.appendChild(opt);
+      opt.value = size;
+      opt.textContent = size;
+
+      sizeSelect.appendChild(opt);
 
     });
 
-    selectedSize = sizes[0] || null;
+    sizeSelect.onchange = updateVariant;
 
-    select.onchange = () => {
-      selectedSize = select.value;
-      findVariant();
-    };
+    updateVariant();
 
   }
 
 
   /* ================= VARIANT ================= */
 
-  function findVariant() {
+  function updateVariant() {
 
     if (!currentProduct) return;
 
-    selectedVariant = currentProduct.variants.find(v => {
+    const size = document.getElementById("popup-size").value;
 
-      return (
-        v.option1 === selectedColor &&
-        v.option2 === selectedSize
-      );
-
-    });
+    // 👇 MATCH CSV ORDER
+    selectedVariant = currentProduct.variants.find(v =>
+      v.option2 === selectedColor &&
+      v.option1 === size
+    );
 
   }
 
 
   /* ================= ADD TO CART ================= */
 
-  document.getElementById("popup-add-btn").onclick = () => {
+  document.getElementById("popup-add-btn").onclick = async () => {
 
     if (!selectedVariant) {
-      alert("Please select options");
+      alert("Please select color & size");
       return;
     }
 
-    fetch("/cart/add.js", {
+    await fetch("/cart/add.js", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -406,6 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
+
 
 
 
