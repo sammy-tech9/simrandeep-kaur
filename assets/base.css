@@ -483,18 +483,17 @@ color: #0b1a2b
 }
 
 .color-btn {
-  /* flex: 1; */
-  /* background: transparent; */
+  flex: 1;
+  background: transparent;
   border: none;
-  /* z-index: 2; */
+  z-index: 2;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  /* color: #000; */
+  color: #000;
   transition: color 0.3s ease;
 }
 
-/* Active text = white */
 .color-btn_1 {
   color: #0b1a2b;
 }
