@@ -55,60 +55,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     buildOptions(product);
-
   }
 
 
-  /* Build dropdowns */
-  function buildOptions(product) {
+  // ================= COLOR SWITCH =================
 
-    const colorSelect = document.getElementById("popup-color");
-    const sizeSelect = document.getElementById("popup-size");
+const colorBox = document.getElementById("popup-color");
 
-    colorSelect.innerHTML = "";
-    sizeSelect.innerHTML = "";
+if (colorBox) {
+  const buttons = colorBox.querySelectorAll(".color-btn");
+  const slider = colorBox.querySelector(".color-slider");
 
+  buttons.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
 
-    const colors = [...new Set(product.variants.map(v => v.option1))];
-    const sizes  = [...new Set(product.variants.map(v => v.option2))];
+      // Remove active
+      buttons.forEach(b => b.classList.remove("active"));
 
+      // Add active
+      btn.classList.add("active");
 
-    colors.forEach(c => {
-      const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = c;
-      colorSelect.appendChild(opt);
+      // Move slider
+      slider.style.left = index * 50 + "%";
+
+      // Save selected color
+      selectedOptions.color = btn.dataset.color;
     });
+  });
+}
 
 
-    sizes.forEach(s => {
-      const opt = document.createElement("option");
-      opt.value = s;
-      opt.textContent = s;
-      sizeSelect.appendChild(opt);
-    });
+
+  // /* Build dropdowns */
+  // function buildOptions(product) {
+
+  //   const colorSelect = document.getElementById("popup-color");
+  //   const sizeSelect = document.getElementById("popup-size");
+
+  //   colorSelect.innerHTML = "";
+  //   sizeSelect.innerHTML = "";
 
 
-    updateVariant();
+  //   const colors = [...new Set(product.variants.map(v => v.option1))];
+  //   const sizes  = [...new Set(product.variants.map(v => v.option2))];
 
 
-    colorSelect.onchange = updateVariant;
-    sizeSelect.onchange = updateVariant;
+  //   colors.forEach(c => {
+  //     const opt = document.createElement("option");
+  //     opt.value = c;
+  //     opt.textContent = c;
+  //     colorSelect.appendChild(opt);
+  //   });
 
-  }
+
+  //   sizes.forEach(s => {
+  //     const opt = document.createElement("option");
+  //     opt.value = s;
+  //     opt.textContent = s;
+  //     sizeSelect.appendChild(opt);
+  //   });
 
 
-  /* Find selected variant */
-  function updateVariant() {
+  //   updateVariant();
 
-    const color = document.getElementById("popup-color").value;
-    const size  = document.getElementById("popup-size").value;
 
-    selectedVariant = currentProduct.variants.find(v =>
-      v.option1 === color && v.option2 === size
-    );
+  //   colorSelect.onchange = updateVariant;
+  //   sizeSelect.onchange = updateVariant;
 
-  }
+  // }
+
+
+  // /* Find selected variant */
+  // function updateVariant() {
+
+  //   const color = document.getElementById("popup-color").value;
+  //   const size  = document.getElementById("popup-size").value;
+
+  //   selectedVariant = currentProduct.variants.find(v =>
+  //     v.option1 === color && v.option2 === size
+  //   );
+
+  // }
 
 
   /* Add to cart */
