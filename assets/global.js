@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     popup.classList.remove("hidden");
 
-    // Info
     document.getElementById("popup-img").src = product.images[0] || "";
     document.getElementById("popup-title").innerText = product.title;
 
@@ -68,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= COLORS ================= */
+  /* ================= COLORS (FROM OPTION2) ================= */
 
   function setupColors(product) {
 
@@ -76,16 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttons = colorBox.querySelectorAll(".color-btn");
     const slider = colorBox.querySelector(".color-slider");
 
-    const colors = [...new Set(product.variants.map(v => v.option1))];
+    // 👇 CSV FIX: Color = option2
+    const colors = [...new Set(product.variants.map(v => v.option2))];
 
-    // Default
     selectedColor = colors[0] || "";
 
     buttons.forEach((btn, index) => {
 
       const color = btn.dataset.color;
 
-      // Show only valid colors
       if (!colors.includes(color)) {
         btn.style.display = "none";
         return;
@@ -93,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.style.display = "block";
       }
 
-      // Active
       if (color === selectedColor) {
         btn.classList.add("active");
         slider.style.left = index * 50 + "%";
@@ -101,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.remove("active");
       }
 
-      // Click
       btn.onclick = () => {
 
         buttons.forEach(b => b.classList.remove("active"));
@@ -120,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= SIZES ================= */
+  /* ================= SIZES (FROM OPTION1) ================= */
 
   function setupSizes(product) {
 
@@ -128,7 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sizeSelect.innerHTML = "";
 
-    const sizes = [...new Set(product.variants.map(v => v.option2))];
+    // 👇 CSV FIX: Size = option1
+    const sizes = [...new Set(product.variants.map(v => v.option1))];
 
     sizes.forEach(size => {
 
@@ -156,9 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const size = document.getElementById("popup-size").value;
 
+    // 👇 MATCH CSV ORDER
     selectedVariant = currentProduct.variants.find(v =>
-      v.option1 === selectedColor &&
-      v.option2 === size
+      v.option2 === selectedColor &&
+      v.option1 === size
     );
 
   }
@@ -189,6 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
+
 
 
 
