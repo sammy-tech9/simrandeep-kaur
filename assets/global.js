@@ -1,8 +1,8 @@
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
   const closeBtn = document.querySelector(".popup-close");
+  const addBtn = document.getElementById("popup-add-btn");
 
   let currentProduct = null;
   let selectedVariant = null;
@@ -15,25 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", async () => {
 
-      console.log("HANDLE =", btn.dataset.handle); 
-
       const handle = btn.dataset.handle;
 
       if (!handle) return;
 
-      const res = await fetch(`/products/${handle}.js`);
-      const product = await res.json();
+      try {
 
-      openPopup(product);
+        const res = await fetch(`/products/${handle}.js`);
+        const product = await res.json();
+
+        openPopup(product);
+
+      } catch (err) {
+        console.error("Product fetch error:", err);
+      }
 
     });
 
   });
 
 
-  /* ================= CLOSE ================= */
+  /* ================= CLOSE POPUP ================= */
 
-  closeBtn.onclick = closePopup;
+  closeBtn.addEventListener("click", closePopup);
 
   popup.addEventListener("click", e => {
     if (e.target.classList.contains("popup-overlay")) {
@@ -46,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= OPEN ================= */
+  /* ================= OPEN POPUP ================= */
 
   function openPopup(product) {
 
@@ -54,8 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     popup.classList.remove("hidden");
 
-    document.getElementById("popup-img").src = product.images[0] || "";
-    document.getElementById("popup-title").innerText = product.title;
+    /* Basic info */
+
+    document.getElementById("popup-img").src =
+      product.images[0] || "";
+
+    document.getElementById("popup-title").innerText =
+      product.title;
 
     document.getElementById("popup-price").innerText =
       "₹" + (product.price / 100).toFixed(2);
@@ -63,71 +72,81 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("popup-desc").innerText =
       product.description.replace(/(<([^>]+)>)/gi, "");
 
-    setupColors(product);
-    setupSizes(product);
+    buildColors(product);
+    buildSizes(product);
 
   }
 
 
-  /* ================= COLORS (FROM OPTION2) ================= */
+  /* ================= BUILD COLORS ================= */
+  /* CSV: Color = option2 */
 
-  function setupColors(product) {
+  function buildColors(product) {
 
     const colorBox = document.getElementById("popup-color");
-    const buttons = colorBox.querySelectorAll(".color-btn");
+
+    colorBox.innerHTML = '<span class="color-slider"></span>';
+
     const slider = colorBox.querySelector(".color-slider");
 
-    // 👇 CSV FIX: Color = option2
-    const colors = [...new Set(product.variants.map(v => v.option2))];
+    const colors = [
+      ...new Set(product.variants.map(v => v.option2))
+    ];
 
-    selectedColor = colors[0] || "";
+    if (!colors.length) return;
 
-    buttons.forEach((btn, index) => {
+    selectedColor = colors[0];
 
-      const color = btn.dataset.color;
+    colors.forEach((color, index) => {
 
-      if (!colors.includes(color)) {
-        btn.style.display = "none";
-        return;
-      } else {
-        btn.style.display = "block";
+      const btn = document.createElement("button");
+
+      btn.className = "color-btn";
+      btn.textContent = color;
+      btn.dataset.color = color;
+
+      if (index === 0) {
+        btn.classList.add("active");
+        slider.style.left = "0%";
       }
 
-      if (color === selectedColor) {
-        btn.classList.add("active");
-        slider.style.left = index * 50 + "%";
-      } else {
-        btn.classList.remove("active");
-      }
+      btn.addEventListener("click", () => {
 
-      btn.onclick = () => {
-
-        buttons.forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".color-btn")
+          .forEach(b => b.classList.remove("active"));
 
         btn.classList.add("active");
 
-        slider.style.left = index * 50 + "%";
+        slider.style.left = (100 / colors.length) * index + "%";
 
         selectedColor = color;
 
         updateVariant();
-      };
+
+      });
+
+      colorBox.appendChild(btn);
 
     });
+
+    /* Resize slider */
+    slider.style.width = 100 / colors.length + "%";
 
   }
 
 
-  /* ================= SIZES (FROM OPTION1) ================= */
+  /* ================= BUILD SIZES ================= */
+  /* CSV: Size = option1 */
 
-  function setupSizes(product) {
+  function buildSizes(product) {
 
     const sizeSelect = document.getElementById("popup-size");
 
     sizeSelect.innerHTML = "";
 
-    // 👇 CSV FIX: Size = option1
-    const sizes = [...new Set(product.variants.map(v => v.option1))];
+    const sizes = [
+      ...new Set(product.variants.map(v => v.option1))
+    ];
 
     sizes.forEach(size => {
 
@@ -140,14 +159,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    sizeSelect.onchange = updateVariant;
+    sizeSelect.addEventListener("change", updateVariant);
 
     updateVariant();
 
   }
 
 
-  /* ================= VARIANT ================= */
+  /* ================= FIND VARIANT ================= */
 
   function updateVariant() {
 
@@ -155,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const size = document.getElementById("popup-size").value;
 
-    // 👇 MATCH CSV ORDER
     selectedVariant = currentProduct.variants.find(v =>
       v.option2 === selectedColor &&
       v.option1 === size
@@ -166,29 +184,230 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ================= ADD TO CART ================= */
 
-  document.getElementById("popup-add-btn").onclick = async () => {
+  addBtn.addEventListener("click", async () => {
 
     if (!selectedVariant) {
-      alert("Please select color & size");
+      alert("Please select color and size");
       return;
     }
 
-    await fetch("/cart/add.js", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: selectedVariant.id,
-        quantity: 1
-      })
-    });
+    try {
 
-    closePopup();
+      await fetch("/cart/add.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: selectedVariant.id,
+          quantity: 1
+        })
+      });
 
-  };
+      closePopup();
+
+    } catch (err) {
+      console.error("Add to cart error:", err);
+    }
+
+  });
 
 });
+
+
+
+
+
+// document.addEventListener("DOMContentLoaded", () => {
+
+//   const popup = document.getElementById("product-popup");
+//   const closeBtn = document.querySelector(".popup-close");
+
+//   let currentProduct = null;
+//   let selectedVariant = null;
+//   let selectedColor = "";
+
+
+//   /* ================= OPEN POPUP ================= */
+
+//   document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
+
+//     btn.addEventListener("click", async () => {
+
+//       console.log("HANDLE =", btn.dataset.handle); 
+
+//       const handle = btn.dataset.handle;
+
+//       if (!handle) return;
+
+//       const res = await fetch(`/products/${handle}.js`);
+//       const product = await res.json();
+
+//       openPopup(product);
+
+//     });
+
+//   });
+
+
+//   /* ================= CLOSE ================= */
+
+//   closeBtn.onclick = closePopup;
+
+//   popup.addEventListener("click", e => {
+//     if (e.target.classList.contains("popup-overlay")) {
+//       closePopup();
+//     }
+//   });
+
+//   function closePopup() {
+//     popup.classList.add("hidden");
+//   }
+
+
+//   /* ================= OPEN ================= */
+
+//   function openPopup(product) {
+
+//     currentProduct = product;
+
+//     popup.classList.remove("hidden");
+
+//     document.getElementById("popup-img").src = product.images[0] || "";
+//     document.getElementById("popup-title").innerText = product.title;
+
+//     document.getElementById("popup-price").innerText =
+//       "₹" + (product.price / 100).toFixed(2);
+
+//     document.getElementById("popup-desc").innerText =
+//       product.description.replace(/(<([^>]+)>)/gi, "");
+
+//     setupColors(product);
+//     setupSizes(product);
+
+//   }
+
+
+//   /* ================= COLORS (FROM OPTION2) ================= */
+
+//   function setupColors(product) {
+
+//     const colorBox = document.getElementById("popup-color");
+//     const buttons = colorBox.querySelectorAll(".color-btn");
+//     const slider = colorBox.querySelector(".color-slider");
+
+//     // 👇 CSV FIX: Color = option2
+//     const colors = [...new Set(product.variants.map(v => v.option2))];
+
+//     selectedColor = colors[0] || "";
+
+//     buttons.forEach((btn, index) => {
+
+//       const color = btn.dataset.color;
+
+//       if (!colors.includes(color)) {
+//         btn.style.display = "none";
+//         return;
+//       } else {
+//         btn.style.display = "block";
+//       }
+
+//       if (color === selectedColor) {
+//         btn.classList.add("active");
+//         slider.style.left = index * 50 + "%";
+//       } else {
+//         btn.classList.remove("active");
+//       }
+
+//       btn.onclick = () => {
+
+//         buttons.forEach(b => b.classList.remove("active"));
+
+//         btn.classList.add("active");
+
+//         slider.style.left = index * 50 + "%";
+
+//         selectedColor = color;
+
+//         updateVariant();
+//       };
+
+//     });
+
+//   }
+
+
+//   /* ================= SIZES (FROM OPTION1) ================= */
+
+//   function setupSizes(product) {
+
+//     const sizeSelect = document.getElementById("popup-size");
+
+//     sizeSelect.innerHTML = "";
+
+//     // 👇 CSV FIX: Size = option1
+//     const sizes = [...new Set(product.variants.map(v => v.option1))];
+
+//     sizes.forEach(size => {
+
+//       const opt = document.createElement("option");
+
+//       opt.value = size;
+//       opt.textContent = size;
+
+//       sizeSelect.appendChild(opt);
+
+//     });
+
+//     sizeSelect.onchange = updateVariant;
+
+//     updateVariant();
+
+//   }
+
+
+//   /* ================= VARIANT ================= */
+
+//   function updateVariant() {
+
+//     if (!currentProduct) return;
+
+//     const size = document.getElementById("popup-size").value;
+
+//     // 👇 MATCH CSV ORDER
+//     selectedVariant = currentProduct.variants.find(v =>
+//       v.option2 === selectedColor &&
+//       v.option1 === size
+//     );
+
+//   }
+
+
+//   /* ================= ADD TO CART ================= */
+
+//   document.getElementById("popup-add-btn").onclick = async () => {
+
+//     if (!selectedVariant) {
+//       alert("Please select color & size");
+//       return;
+//     }
+
+//     await fetch("/cart/add.js", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify({
+//         id: selectedVariant.id,
+//         quantity: 1
+//       })
+//     });
+
+//     closePopup();
+
+//   };
+
+// });
 
 
 
