@@ -1,4 +1,5 @@
 
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
@@ -6,14 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentProduct = null;
   let selectedVariant = null;
+  let selectedColor = "Blue"; // default
 
 
-  /* Open popup */
+  /* ================= OPEN POPUP ================= */
+
   document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
 
     btn.addEventListener("click", async () => {
 
       const handle = btn.dataset.handle;
+
+      if (!handle) return;
 
       const res = await fetch(`/products/${handle}.js`);
       const product = await res.json();
@@ -25,125 +30,153 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* Close popup */
-  closeBtn.onclick = closePopup;
-  popup.onclick = e => {
-    if (e.target === popup) closePopup();
-  };
+  /* ================= CLOSE POPUP ================= */
 
+  closeBtn.onclick = closePopup;
+
+  popup.addEventListener("click", e => {
+    if (e.target.classList.contains("popup-overlay")) {
+      closePopup();
+    }
+  });
 
   function closePopup() {
     popup.classList.add("hidden");
   }
 
 
-  /* Open popup */
+  /* ================= OPEN POPUP ================= */
+
   function openPopup(product) {
 
     currentProduct = product;
 
     popup.classList.remove("hidden");
 
-    /* Basic info */
-    document.getElementById("popup-img").src = product.images[0];
+    // Basic info
+    document.getElementById("popup-img").src = product.images[0] || "";
     document.getElementById("popup-title").innerText = product.title;
+
     document.getElementById("popup-price").innerText =
       "₹" + (product.price / 100).toFixed(2);
 
-    document.getElementById("popup-desc").innerHTML =
+    document.getElementById("popup-desc").innerText =
       product.description.replace(/(<([^>]+)>)/gi, "");
 
+    // Build options
+    setupColorButtons(product);
+    buildSizeOptions(product);
 
-    buildOptions(product);
   }
 
 
-  // ================= COLOR SWITCH =================
+  /* ================= COLOR BUTTONS ================= */
 
-const colorBox = document.getElementById("popup-color");
+  function setupColorButtons(product) {
 
-if (colorBox) {
-  const buttons = colorBox.querySelectorAll(".color-btn");
-  const slider = colorBox.querySelector(".color-slider");
-
-  buttons.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-
-      // Remove active
-      buttons.forEach(b => b.classList.remove("active"));
-
-      // Add active
-      btn.classList.add("active");
-
-      // Move slider
-      slider.style.left = index * 50 + "%";
-
-      // Save selected color
-      selectedOptions.color = btn.dataset.color;
-    });
-  });
-}
-
-
-
-  /* Build dropdowns */
-  function buildOptions(product) {
-
-    const colorSelect = document.getElementById("popup-color");
-    const sizeSelect = document.getElementById("popup-size");
-
-    colorSelect.innerHTML = "";
-    sizeSelect.innerHTML = "";
-
+    const colorBox = document.getElementById("popup-color");
+    const buttons = colorBox.querySelectorAll(".color-btn");
+    const slider = colorBox.querySelector(".color-slider");
 
     const colors = [...new Set(product.variants.map(v => v.option1))];
-    const sizes  = [...new Set(product.variants.map(v => v.option2))];
 
+    // Reset
+    selectedColor = colors[0] || "";
 
-    colors.forEach(c => {
-      const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = c;
-      colorSelect.appendChild(opt);
+    buttons.forEach((btn, index) => {
+
+      const color = btn.dataset.color;
+
+      // Hide button if color not exists
+      if (!colors.includes(color)) {
+        btn.style.display = "none";
+        return;
+      } else {
+        btn.style.display = "block";
+      }
+
+      // Default active
+      if (color === selectedColor) {
+        btn.classList.add("active");
+        slider.style.left = index * 50 + "%";
+      } else {
+        btn.classList.remove("active");
+      }
+
+      // Click
+      btn.onclick = () => {
+
+        buttons.forEach(b => b.classList.remove("active"));
+
+        btn.classList.add("active");
+
+        slider.style.left = index * 50 + "%";
+
+        selectedColor = color;
+
+        updateVariant();
+
+      };
+
     });
 
+  }
 
-    sizes.forEach(s => {
+
+  /* ================= SIZE DROPDOWN ================= */
+
+  function buildSizeOptions(product) {
+
+    const sizeSelect = document.getElementById("popup-size");
+
+    sizeSelect.innerHTML = "";
+
+    const sizes = [...new Set(product.variants.map(v => v.option2))];
+
+    sizes.forEach(size => {
+
       const opt = document.createElement("option");
-      opt.value = s;
-      opt.textContent = s;
+
+      opt.value = size;
+      opt.textContent = size;
+
       sizeSelect.appendChild(opt);
+
     });
 
+    sizeSelect.onchange = updateVariant;
 
     updateVariant();
 
-
-    colorSelect.onchange = updateVariant;
-    sizeSelect.onchange = updateVariant;
-
   }
 
 
-  /* Find selected variant */
+  /* ================= FIND VARIANT ================= */
+
   function updateVariant() {
 
-    const color = document.getElementById("popup-color").value;
-    const size  = document.getElementById("popup-size").value;
+    if (!currentProduct) return;
+
+    const size = document.getElementById("popup-size").value;
 
     selectedVariant = currentProduct.variants.find(v =>
-      v.option1 === color && v.option2 === size
+      v.option1 === selectedColor &&
+      v.option2 === size
     );
 
   }
 
 
-  /* Add to cart */
-  document.getElementById("popup-add").onclick = () => {
+  /* ================= ADD TO CART ================= */
 
-    if (!selectedVariant) return alert("Select options");
+  document.getElementById("popup-add-btn").onclick = async () => {
 
-    fetch("/cart/add.js", {
+    if (!selectedVariant) {
+      alert("Please select options");
+      return;
+    }
+
+    await fetch("/cart/add.js", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -159,7 +192,6 @@ if (colorBox) {
   };
 
 });
-
 
 
 
