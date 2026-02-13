@@ -500,9 +500,15 @@ color: #0b1a2b
   width: 50%;
   height: 100%;
   background: #000;
-  transition: 0.3s ease;
+  transition: transform 0.3s ease;
   z-index: 1;
 }
+
+/* Move slider to right */
+.color-switch.right .color-slider {
+  transform: translateX(100%);
+}
+
 
 /* ================= SIZE ================= */
 
