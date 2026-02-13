@@ -209,74 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
 
-      /* ========== AUTO ADD JACKET (Black + Medium) ========== */
-//       /* ================= ADD TO CART ================= */
-
-// addBtn.addEventListener("click", async () => {
-
-//   if (!selectedVariant) {
-//     alert("Please select color and size");
-//     return;
-//   }
-
-//   try {
-
-//     /* Add main product */
-//     await fetch("/cart/add.js", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({
-//         id: selectedVariant.id,
-//         quantity: 1
-//       })
-//     });
-
-
-//     /* Check selected values */
-//     const size = document.getElementById("popup-size").value;
-//     const color = selectedColor;
-
-//     console.log("Selected:", color, size);
-
-
-//     /* Auto add jacket */
-//     if (
-//       color.toLowerCase().trim() === "black" &&
-//       size.toLowerCase().trim() === "medium"
-//     ) {
-
-//       console.log("Adding bonus jacket...");
-
-//       const jacketRes = await fetch("/products/dark-winter-jacket.js");
-//       const jacketProduct = await jacketRes.json();
-
-//       const jacketVariantId = jacketProduct.variants[0].id;
-
-//       await fetch("/cart/add.js", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//           id: jacketVariantId,
-//           quantity: 1
-//         })
-//       });
-
-//       console.log("Bonus jacket added!");
-//     }
-
-//     closePopup();
-
-//   } catch (err) {
-//     console.error("Add to cart error:", err);
-//   }
-
-// });
-
-
+      /* ========== AUTO ADD JACKET ========== */
 
       const size = document.getElementById("popup-size").value;
       const color = selectedColor;
@@ -302,8 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
       }
-
-      /* ===================================================== */
 
       closePopup();
 
