@@ -1,5 +1,4 @@
 
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
@@ -7,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentProduct = null;
   let selectedVariant = null;
-  let selectedColor = "Blue"; // default
+  let selectedColor = "";
 
 
   /* ================= OPEN POPUP ================= */
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* ================= CLOSE POPUP ================= */
+  /* ================= CLOSE ================= */
 
   closeBtn.onclick = closePopup;
 
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= OPEN POPUP ================= */
+  /* ================= OPEN ================= */
 
   function openPopup(product) {
 
@@ -53,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     popup.classList.remove("hidden");
 
-    // Basic info
+    // Info
     document.getElementById("popup-img").src = product.images[0] || "";
     document.getElementById("popup-title").innerText = product.title;
 
@@ -63,16 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("popup-desc").innerText =
       product.description.replace(/(<([^>]+)>)/gi, "");
 
-    // Build options
-    setupColorButtons(product);
-    buildSizeOptions(product);
+    setupColors(product);
+    setupSizes(product);
 
   }
 
 
-  /* ================= COLOR BUTTONS ================= */
+  /* ================= COLORS ================= */
 
-  function setupColorButtons(product) {
+  function setupColors(product) {
 
     const colorBox = document.getElementById("popup-color");
     const buttons = colorBox.querySelectorAll(".color-btn");
@@ -80,14 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const colors = [...new Set(product.variants.map(v => v.option1))];
 
-    // Reset
+    // Default
     selectedColor = colors[0] || "";
 
     buttons.forEach((btn, index) => {
 
       const color = btn.dataset.color;
 
-      // Hide button if color not exists
+      // Show only valid colors
       if (!colors.includes(color)) {
         btn.style.display = "none";
         return;
@@ -95,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.style.display = "block";
       }
 
-      // Default active
+      // Active
       if (color === selectedColor) {
         btn.classList.add("active");
         slider.style.left = index * 50 + "%";
@@ -115,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedColor = color;
 
         updateVariant();
-
       };
 
     });
@@ -123,9 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= SIZE DROPDOWN ================= */
+  /* ================= SIZES ================= */
 
-  function buildSizeOptions(product) {
+  function setupSizes(product) {
 
     const sizeSelect = document.getElementById("popup-size");
 
@@ -151,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= FIND VARIANT ================= */
+  /* ================= VARIANT ================= */
 
   function updateVariant() {
 
@@ -172,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("popup-add-btn").onclick = async () => {
 
     if (!selectedVariant) {
-      alert("Please select options");
+      alert("Please select color & size");
       return;
     }
 
@@ -192,6 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
+
 
 
 
