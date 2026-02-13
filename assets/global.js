@@ -66,54 +66,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
+  /* ================= COLORS SLIDER ================= */
+
+function setupColors(product) {
+
+  const colorBox = document.getElementById("popup-color");
+  const buttons = colorBox.querySelectorAll(".color-btn");
+  const slider = colorBox.querySelector(".color-slider");
+
+  // Color = option2 (CSV fix)
+  const colors = [...new Set(product.variants.map(v => v.option2))];
+
+  selectedColor = colors[0] || "";
+
+  buttons.forEach((btn, index) => {
+
+    const color = btn.dataset.color;
+
+    // Hide unused buttons
+    if (!colors.includes(color)) {
+      btn.style.display = "none";
+      return;
+    } else {
+      btn.style.display = "block";
+    }
+
+    // Default active
+    if (color === selectedColor) {
+      setActive(btn, index);
+    } else {
+      btn.classList.remove("active");
+    }
+
+    // Click event
+    btn.onclick = () => {
+
+      buttons.forEach(b => b.classList.remove("active"));
+
+      setActive(btn, index);
+
+      selectedColor = color;
+
+      updateVariant();
+    };
+
+  });
+
+
+  /* Move slider + activate button */
+  function setActive(btn, index) {
+
+    btn.classList.add("active");
+
+    // Move background
+    slider.style.left = index === 0 ? "0%" : "50%";
+
+  }
+
+}
+
 
   /* ================= COLORS (FROM OPTION2) ================= */
 
-  function setupColors(product) {
 
-    const colorBox = document.getElementById("popup-color");
-    const buttons = colorBox.querySelectorAll(".color-btn");
-    const slider = colorBox.querySelector(".color-slider");
+  // function setupColors(product) {
 
-    // 👇 CSV FIX: Color = option2
-    const colors = [...new Set(product.variants.map(v => v.option2))];
+  //   const colorBox = document.getElementById("popup-color");
+  //   const buttons = colorBox.querySelectorAll(".color-btn");
+  //   const slider = colorBox.querySelector(".color-slider");
 
-    selectedColor = colors[0] || "";
+  //   // 👇 CSV FIX: Color = option2
+  //   const colors = [...new Set(product.variants.map(v => v.option2))];
 
-    buttons.forEach((btn, index) => {
+  //   selectedColor = colors[0] || "";
 
-      const color = btn.dataset.color;
+  //   buttons.forEach((btn, index) => {
 
-      if (!colors.includes(color)) {
-        btn.style.display = "none";
-        return;
-      } else {
-        btn.style.display = "block";
-      }
+  //     const color = btn.dataset.color;
 
-      if (color === selectedColor) {
-        btn.classList.add("active");
-        slider.style.left = index * 50 + "%";
-      } else {
-        btn.classList.remove("active");
-      }
+  //     if (!colors.includes(color)) {
+  //       btn.style.display = "none";
+  //       return;
+  //     } else {
+  //       btn.style.display = "block";
+  //     }
 
-      btn.onclick = () => {
+  //     if (color === selectedColor) {
+  //       btn.classList.add("active");
+  //       slider.style.left = index * 50 + "%";
+  //     } else {
+  //       btn.classList.remove("active");
+  //     }
 
-        buttons.forEach(b => b.classList.remove("active"));
+  //     btn.onclick = () => {
 
-        btn.classList.add("active");
+  //       buttons.forEach(b => b.classList.remove("active"));
 
-        slider.style.left = index * 50 + "%";
+  //       btn.classList.add("active");
 
-        selectedColor = color;
+  //       slider.style.left = index * 50 + "%";
 
-        updateVariant();
-      };
+  //       selectedColor = color;
 
-    });
+  //       updateVariant();
+  //     };
 
-  }
+  //   });
+
+  // }
 
 
   /* ================= SIZES (FROM OPTION1) ================= */
