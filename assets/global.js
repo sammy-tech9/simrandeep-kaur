@@ -1,29 +1,35 @@
+<script>
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("product-popup");
+  const closeBtn = document.querySelector(".popup-close");
 
-  let selectedVariantId = null;
-  let selectedOptions = {};
+  let currentProduct = null;
+  let selectedVariant = null;
 
-  document.querySelectorAll(".product-grid_info-btn")
-    .forEach(btn => {
 
-      btn.addEventListener("click", async () => {
+  /* Open popup */
+  document.querySelectorAll(".product-grid_info-btn").forEach(btn => {
 
-        const handle = btn.dataset.handle;
+    btn.addEventListener("click", async () => {
 
-        const res = await fetch(`/products/${handle}.js`);
-        const product = await res.json();
+      const handle = btn.dataset.handle;
 
-        openPopup(product);
+      const res = await fetch(`/products/${handle}.js`);
+      const product = await res.json();
 
-      });
+      openPopup(product);
 
     });
 
+  });
 
-  document.querySelector(".popup-close").onclick = closePopup;
-  document.querySelector(".popup-overlay").onclick = closePopup;
+
+  /* Close popup */
+  closeBtn.onclick = closePopup;
+  popup.onclick = e => {
+    if (e.target === popup) closePopup();
+  };
 
 
   function closePopup() {
@@ -31,178 +37,103 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+  /* Open popup */
   function openPopup(product) {
+
+    currentProduct = product;
 
     popup.classList.remove("hidden");
 
-    document.getElementById("popup-img").src =
-      product.images[0];
-
-    document.getElementById("popup-title").innerText =
-      product.title;
-
+    /* Basic info */
+    document.getElementById("popup-img").src = product.images[0];
+    document.getElementById("popup-title").innerText = product.title;
     document.getElementById("popup-price").innerText =
       "₹" + (product.price / 100).toFixed(2);
 
-    document.getElementById("popup-desc").innerText =
-      product.description.replace(/<[^>]*>/g, "");
+    document.getElementById("popup-desc").innerHTML =
+      product.description.replace(/(<([^>]+)>)/gi, "");
 
-    renderVariants(product);
+
+    buildOptions(product);
 
   }
 
 
-  function renderVariants(product) {
+  /* Build dropdowns */
+  function buildOptions(product) {
 
-    const box = document.getElementById("popup-variants");
+    const colorSelect = document.getElementById("popup-color");
+    const sizeSelect = document.getElementById("popup-size");
 
-    box.innerHTML = "";
-
-    selectedOptions = {};
-
-    product.options.forEach((option) => {
-
-      const group = document.createElement("div");
-      group.className = "variant-group";
-
-      const label = document.createElement("label");
-      label.innerText = option.name;
-
-      group.appendChild(label);
+    colorSelect.innerHTML = "";
+    sizeSelect.innerHTML = "";
 
 
-      if (option.name.toLowerCase() === "color") {
+    const colors = [...new Set(product.variants.map(v => v.option1))];
+    const sizes  = [...new Set(product.variants.map(v => v.option2))];
 
-        const colors = document.createElement("div");
-        colors.className = "color-options";
 
-        option.values.forEach(value => {
-
-          const btn = document.createElement("button");
-          btn.innerText = value;
-
-          btn.onclick = () => {
-
-            colors.querySelectorAll("button")
-              .forEach(b => b.classList.remove("active"));
-
-            btn.classList.add("active");
-
-            selectedOptions[option.name] = value;
-
-            updateVariant(product);
-
-          };
-
-          colors.appendChild(btn);
-
-        });
-
-        group.appendChild(colors);
-
-      }
-
-      else {
-
-        const select = document.createElement("select");
-        select.className = "variant-select";
-
-        option.values.forEach(value => {
-
-          const opt = document.createElement("option");
-          opt.value = value;
-          opt.innerText = value;
-
-          select.appendChild(opt);
-
-        });
-
-        select.onchange = () => {
-
-          selectedOptions[option.name] = select.value;
-
-          updateVariant(product);
-
-        };
-
-        group.appendChild(select);
-
-      }
-
-      box.appendChild(group);
-
+    colors.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      colorSelect.appendChild(opt);
     });
 
 
-    selectedVariantId = product.variants[0].id;
-
-  }
-
-
-  function updateVariant(product) {
-
-    const found = product.variants.find(v => {
-
-      return Object.entries(selectedOptions)
-        .every(([k, v2]) =>
-          v.options.includes(v2)
-        );
-
-    });
-
-    if (found) {
-      selectedVariantId = found.id;
-    }
-
-  }
-
-
-  document.getElementById("popup-add-btn")
-    .addEventListener("click", async () => {
-
-      if (!selectedVariantId) return alert("Select options");
-
-      await fetch("/cart/add.js", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: selectedVariantId,
-          quantity: 1
-        })
-      });
-
-
-      const isBlackMedium =
-        selectedOptions["Color"] === "Black" &&
-        selectedOptions["Size"] === "Medium";
-
-      if (isBlackMedium) {
-
-        await fetch("/cart/add.js", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: getSoftJacketVariant(),
-            quantity: 1
-          })
-        });
-
-      }
-
-      closePopup();
-
-      window.location.href = "/cart";
-
+    sizes.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sizeSelect.appendChild(opt);
     });
 
 
-  function getSoftJacketVariant() {
+    updateVariant();
 
-    return 12345678901234; // CHANGE THIS
+
+    colorSelect.onchange = updateVariant;
+    sizeSelect.onchange = updateVariant;
 
   }
+
+
+  /* Find selected variant */
+  function updateVariant() {
+
+    const color = document.getElementById("popup-color").value;
+    const size  = document.getElementById("popup-size").value;
+
+    selectedVariant = currentProduct.variants.find(v =>
+      v.option1 === color && v.option2 === size
+    );
+
+  }
+
+
+  /* Add to cart */
+  document.getElementById("popup-add").onclick = () => {
+
+    if (!selectedVariant) return alert("Select options");
+
+    fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: selectedVariant.id,
+        quantity: 1
+      })
+    });
+
+    closePopup();
+
+  };
 
 });
+</script>
+
 
 
 
