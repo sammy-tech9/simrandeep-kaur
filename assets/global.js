@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ================= BUILD COLORS ================= */
-  /* CSV: Color = option2 */
 
   function buildColors(product) {
 
@@ -139,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ================= BUILD SIZES ================= */
-  /* CSV: Size = option1 */
 
   function buildSizes(product) {
 
@@ -215,7 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const color = selectedColor;
       console.log("Selected:", color, size);
 
-      if (color === "Black" && size === "Medium") {
+      // if (color === "Black" && size === "Medium")
+        if (
+  color.toLowerCase().trim() === "black" &&
+  (size.toLowerCase().trim() === "medium" || size.toLowerCase().trim() === "m")
+) {
+ {
 
         const jacketRes = await fetch("/products/dark-winter-jacket.js");
         const jacketProduct = await jacketRes.json();
