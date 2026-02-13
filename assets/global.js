@@ -210,110 +210,110 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       /* ========== AUTO ADD JACKET (Black + Medium) ========== */
-      /* ================= ADD TO CART ================= */
+//       /* ================= ADD TO CART ================= */
 
-addBtn.addEventListener("click", async () => {
+// addBtn.addEventListener("click", async () => {
 
-  if (!selectedVariant) {
-    alert("Please select color and size");
-    return;
-  }
+//   if (!selectedVariant) {
+//     alert("Please select color and size");
+//     return;
+//   }
 
-  try {
+//   try {
 
-    /* Add main product */
-    await fetch("/cart/add.js", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: selectedVariant.id,
-        quantity: 1
-      })
-    });
-
-
-    /* Check selected values */
-    const size = document.getElementById("popup-size").value;
-    const color = selectedColor;
-
-    console.log("Selected:", color, size);
+//     /* Add main product */
+//     await fetch("/cart/add.js", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify({
+//         id: selectedVariant.id,
+//         quantity: 1
+//       })
+//     });
 
 
-    /* Auto add jacket */
-    if (
-      color.toLowerCase().trim() === "black" &&
-      size.toLowerCase().trim() === "medium"
-    ) {
+//     /* Check selected values */
+//     const size = document.getElementById("popup-size").value;
+//     const color = selectedColor;
 
-      console.log("Adding bonus jacket...");
-
-      const jacketRes = await fetch("/products/dark-winter-jacket.js");
-      const jacketProduct = await jacketRes.json();
-
-      const jacketVariantId = jacketProduct.variants[0].id;
-
-      await fetch("/cart/add.js", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          id: jacketVariantId,
-          quantity: 1
-        })
-      });
-
-      console.log("Bonus jacket added!");
-    }
-
-    closePopup();
-
-  } catch (err) {
-    console.error("Add to cart error:", err);
-  }
-
-});
+//     console.log("Selected:", color, size);
 
 
+//     /* Auto add jacket */
+//     if (
+//       color.toLowerCase().trim() === "black" &&
+//       size.toLowerCase().trim() === "medium"
+//     ) {
 
-//       const size = document.getElementById("popup-size").value;
-//       const color = selectedColor;
-//       console.log("Selected:", color, size);
+//       console.log("Adding bonus jacket...");
 
-//       if (color === "Black" && size === "Medium") {
+//       const jacketRes = await fetch("/products/dark-winter-jacket.js");
+//       const jacketProduct = await jacketRes.json();
 
-//         const jacketRes = await fetch("/products/dark-winter-jacket.js");
-//         const jacketProduct = await jacketRes.json();
+//       const jacketVariantId = jacketProduct.variants[0].id;
 
-//         const jacketVariantId =
-//           jacketProduct.variants[0].id;
+//       await fetch("/cart/add.js", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//           id: jacketVariantId,
+//           quantity: 1
+//         })
+//       });
 
-//         await fetch("/cart/add.js", {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json"
-//           },
-//           body: JSON.stringify({
-//             id: jacketVariantId,
-//             quantity: 1
-//           })
-//         });
-
-//       }
-
-//       /* ===================================================== */
-
-//       closePopup();
-
-//     } catch (err) {
-//       console.error("Add to cart error:", err);
+//       console.log("Bonus jacket added!");
 //     }
 
-//   });
+//     closePopup();
+
+//   } catch (err) {
+//     console.error("Add to cart error:", err);
+//   }
 
 // });
+
+
+
+      const size = document.getElementById("popup-size").value;
+      const color = selectedColor;
+      console.log("Selected:", color, size);
+
+      if (color === "Black" && size === "Medium") {
+
+        const jacketRes = await fetch("/products/dark-winter-jacket.js");
+        const jacketProduct = await jacketRes.json();
+
+        const jacketVariantId =
+          jacketProduct.variants[0].id;
+
+        await fetch("/cart/add.js", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            id: jacketVariantId,
+            quantity: 1
+          })
+        });
+
+      }
+
+      /* ===================================================== */
+
+      closePopup();
+
+    } catch (err) {
+      console.error("Add to cart error:", err);
+    }
+
+  });
+
+});
 
 
 
