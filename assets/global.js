@@ -86,56 +86,56 @@ if (colorBox) {
 
 
 
-  // /* Build dropdowns */
-  // function buildOptions(product) {
+  /* Build dropdowns */
+  function buildOptions(product) {
 
-  //   const colorSelect = document.getElementById("popup-color");
-  //   const sizeSelect = document.getElementById("popup-size");
+    const colorSelect = document.getElementById("popup-color");
+    const sizeSelect = document.getElementById("popup-size");
 
-  //   colorSelect.innerHTML = "";
-  //   sizeSelect.innerHTML = "";
-
-
-  //   const colors = [...new Set(product.variants.map(v => v.option1))];
-  //   const sizes  = [...new Set(product.variants.map(v => v.option2))];
+    colorSelect.innerHTML = "";
+    sizeSelect.innerHTML = "";
 
 
-  //   colors.forEach(c => {
-  //     const opt = document.createElement("option");
-  //     opt.value = c;
-  //     opt.textContent = c;
-  //     colorSelect.appendChild(opt);
-  //   });
+    const colors = [...new Set(product.variants.map(v => v.option1))];
+    const sizes  = [...new Set(product.variants.map(v => v.option2))];
 
 
-  //   sizes.forEach(s => {
-  //     const opt = document.createElement("option");
-  //     opt.value = s;
-  //     opt.textContent = s;
-  //     sizeSelect.appendChild(opt);
-  //   });
+    colors.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      colorSelect.appendChild(opt);
+    });
 
 
-  //   updateVariant();
+    sizes.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sizeSelect.appendChild(opt);
+    });
 
 
-  //   colorSelect.onchange = updateVariant;
-  //   sizeSelect.onchange = updateVariant;
-
-  // }
+    updateVariant();
 
 
-  // /* Find selected variant */
-  // function updateVariant() {
+    colorSelect.onchange = updateVariant;
+    sizeSelect.onchange = updateVariant;
 
-  //   const color = document.getElementById("popup-color").value;
-  //   const size  = document.getElementById("popup-size").value;
+  }
 
-  //   selectedVariant = currentProduct.variants.find(v =>
-  //     v.option1 === color && v.option2 === size
-  //   );
 
-  // }
+  /* Find selected variant */
+  function updateVariant() {
+
+    const color = document.getElementById("popup-color").value;
+    const size  = document.getElementById("popup-size").value;
+
+    selectedVariant = currentProduct.variants.find(v =>
+      v.option1 === color && v.option2 === size
+    );
+
+  }
 
 
   /* Add to cart */
