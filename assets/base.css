@@ -495,8 +495,12 @@ color: #0b1a2b
 }
 
 /* Active text = white */
-.color-btn {
+.color-btn_1 {
   color: #0b1a2b;
+}
+
+.color-btn_2{
+  color: #fff;
 }
 
 /* Sliding background */
