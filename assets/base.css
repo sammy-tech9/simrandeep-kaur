@@ -314,10 +314,6 @@ color: #0b1a2b
   transform: scale(1.05);
 }
 
-
-
-
-
 /* Modal */
 
 .product-modal.hidden {
@@ -534,12 +530,6 @@ color: #0b1a2b
 .popup-btn:hover {
   opacity: 0.9;
 }
-
-
-
-
-
-
 
 .product-card-wrapper .card,
 .contains-card--product {
