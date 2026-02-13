@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupColors(product) {
 
     const colorBox = document.getElementById("popup-color");
-    const buttons = colorBox.querySelectorAll("color-btn");
-    const slider = colorBox.querySelector("color-slider");
+    const buttons = colorBox.querySelectorAll(".color-btn");
+    const slider = colorBox.querySelector(".color-slider");
 
     // 👇 CSV FIX: Color = option2
     const colors = [...new Set(product.variants.map(v => v.option2))];
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const color = btn.dataset.color;
 
       if (!colors.includes(color)) {
-        btn.style.display = "none";
+        btn.style.display = "";
         return;
       } else {
         btn.style.display = "block";
